@@ -1,0 +1,247 @@
+/* Contenedor principal */
+.loginContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #fafafa;
+  gap: 4rem;
+  padding: 2rem;
+}
+
+/* Sección del mockup */
+.loginImageSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Mockup de celular */
+.phoneMockup {
+  position: relative;
+  width: 260px;
+  height: 500px;
+  background-color: #f0f0f0;
+  border: 4px solid black;
+  border-radius: 30px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.notch {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: black;
+  width: 80px;
+  height: 8px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.sideButtonTop {
+  position: absolute;
+  right: -10px;
+  top: 80px;
+  width: 10px;
+  height: 28px;
+  background-color: black;
+  border-radius: 6px;
+}
+
+.sideButtonBottom {
+  position: absolute;
+  right: -10px;
+  bottom: 120px;
+  width: 10px;
+  height: 40px;
+  background-color: black;
+  border-radius: 6px;
+}
+
+.phoneScreen {
+  width: 240px;
+  height: 470px;
+  border-radius: 20px;
+  object-fit: cover;
+}
+
+/* Sección del formulario */
+.loginFormSection {
+  width: 100%;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginCard {
+  background-color: white;
+  border: 1px solid #dbdbdb;
+  padding: 2rem;
+  border-radius: 8px;
+  width: 100%;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.loginLogo {
+  width: 150px;
+  margin-bottom: 1.5rem;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.loginInput {
+  padding: 10px;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  background-color: #fafafa;
+  font-size: 14px;
+}
+
+.passwordInputContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.togglePassBtn {
+  position: absolute;
+  right: 5px;
+  top: 4px;
+  z-index: 1;
+  font-size: 14px;
+}
+
+.loginButton {
+  background-color: #0095f6;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 0.5rem;
+}
+
+.loginButton:hover {
+  background-color: #007bd1;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 1rem 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid #dbdbdb;
+}
+
+.divider span {
+  margin: 0 10px;
+  color: #999;
+  font-size: 12px;
+}
+
+.loginFacebook {
+  background: none;
+  border: none;
+  color: #385185;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.loginFacebook i {
+  margin-right: 5px;
+}
+
+.forgotLink {
+  font-size: 12px;
+  color: #00376b;
+  background: none;
+  border: none;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.forgotLink:hover {
+  text-decoration: underline;
+}
+
+.loginRegisterCard {
+  background-color: white;
+  border: 1px solid #dbdbdb;
+  padding: 1rem;
+  width: 100%;
+  text-align: center;
+  font-size: 14px;
+}
+
+.registerLink {
+  background: none;
+  border: none;
+  color: #0095f6;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.registerLink:hover {
+  text-decoration: underline;
+}
+
+.loginApps {
+  text-align: center;
+  font-size: 14px;
+  margin-top: 1rem;
+}
+
+.storeButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.storeButtons img {
+  width: 120px;
+}
+
+/* Errores */
+.errorText {
+  color: red;
+  font-size: 12px;
+  text-align: left;
+  margin-top: -5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .loginContainer {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .loginImageSection {
+    display: none;
+  }
+
+  .loginFormSection {
+    max-width: 100%;
+    padding: 0 1rem;
+  }
+}
