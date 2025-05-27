@@ -109,8 +109,9 @@ const Listado = () => {
     return (
         <Layout
             titulo={titulo}
-
-        > {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
+        >
+        <>
+             {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
             <>
                 <Mensaje>
                     <Alert variant="success" show={exito} >{descExito}</Alert>
@@ -185,12 +186,14 @@ const Listado = () => {
                             <Link
                                 href="/listados"
                             >
-                                <Button
-                                    variant="info"
-                                    block
-                                >   
-                                    Volver
-                            </Button>
+                                <span>
+                                    <Button
+                                        variant="info"
+                                        block
+                                    >   
+                                        Volver
+                                    </Button>
+                                </span>
                             </Link>
                             </Col>
                         </Row>
@@ -199,6 +202,7 @@ const Listado = () => {
                 </Contenedor>
             </>
             }
+        </>
         </Layout>
     );
 }

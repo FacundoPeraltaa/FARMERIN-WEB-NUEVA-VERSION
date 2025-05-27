@@ -294,7 +294,10 @@ const Animal = () => {
   return (
     <Layout
       titulo="Animales"
-    > {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
+    >
+      <>
+    
+    {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
       <>
         <Botonera>
 
@@ -577,12 +580,14 @@ const Animal = () => {
                 <Link
                   href="/animales"
                 >
+                  <span>
                   <Button
                     variant="info"
                     block
                   >
                     Volver
                   </Button>
+                  </span>
                 </Link>
               </Col>
 
@@ -591,7 +596,8 @@ const Animal = () => {
         </Contenedor>
       </>
       }
-    </Layout>
+      </>
+      </Layout>
   );
 }
 

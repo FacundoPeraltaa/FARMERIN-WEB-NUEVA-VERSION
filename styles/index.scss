@@ -5010,3 +5010,16 @@ body {
 .btn-cerrar-analisis:hover {
   color: #c00;
 }
+
+/* SIDEBAR GLOBAL NAVBAR */
+
+ .appLayout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1;
+  padding-bottom: 2rem;
+}

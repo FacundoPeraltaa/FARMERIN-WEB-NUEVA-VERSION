@@ -35,7 +35,9 @@ const DetalleTambos = ({ tambo }) => {
                <Link
                   href="/tambos/[id]" as={`/tambos/${id}`}
                >
-                  <RiEdit2Line size={28} />
+                  <span>
+                    <RiEdit2Line size={28} />
+                  </span>
                </Link>
             </Button>
             <Button
@@ -44,7 +46,9 @@ const DetalleTambos = ({ tambo }) => {
                <Link
                   href="/tambos/[id]" as={`/tambos/${id}`}
                >
-                  <RiDeleteBin2Line size={28} />
+                  <span>
+                    <RiDeleteBin2Line size={28} />
+                  </span>
                </Link>
             </Button>
 

@@ -314,6 +314,7 @@ const Actualizacion = () => {
     <Layout
       titulo="Actualizacion Masiva"
     >
+      <>
       {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
         <Botonera>
 
@@ -439,6 +440,7 @@ const Actualizacion = () => {
         :
         <SelectTambo />
       }
+      </>
     </Layout>
 
   )

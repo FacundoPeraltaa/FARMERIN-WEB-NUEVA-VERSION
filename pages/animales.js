@@ -197,127 +197,117 @@ const Animales = () => {
     <Layout
       titulo="Animales"
     >
-     
-      <Botonera>
-        <Row>
-          <Col lg={true}>
-            <h6>Listado de animales: {animales.length}</h6>
-          </Col>
-
-
-        </Row>
-        <Row>&nbsp;</Row>
-        <Row>
-          <Col lg={true}>
-            <Form
-              onSubmit={handleSubmit}
-            >
-              <Row>
-
-                <Col lg={true}>
-                  <Form.Group>
-                    <Form.Control
-                      type="string"
-                      id="rp"
-                      placeholder="RP / eRP"
-                      name="rp"
-                      value={rp}
-                      onChange={handleChange}
-
-
-                    />
-                  </Form.Group>
-                </Col>
-                <Col lg={true}>
-                  <Form.Group>
-                    <Button
-                      variant="info" block
-                      type="submit"
-                    >
-                      <RiSearchLine size={22} />
-                &nbsp;
-                Buscar
-
-                </Button>
-                  </Form.Group>
-                </Col>
-                <Col md="auto">
-
-                  <Link
-                    href="/animales/[id]" as={'/animales/0'}
-                  >
-                    <Button
-                      variant="success" block
-                    >
-                      <RiAddBoxLine size={24} />
-                      &nbsp;
-                      Alta Animal
-
-                    </Button>
-                  </Link>
-
-                </Col>
-              </Row>
-            </Form>
-
-          </Col>
-
-        </Row>
-      </Botonera >
-
-      {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
-        //si hay tambo
-        (tamboSel) ?
-
-          animales.length == 0 ?
-            <Mensaje>
-              <Alert variant="warning" >No se encontraron resultados</Alert>
-            </Mensaje>
-            :
-            <Contenedor>
-              <StickyTable height={370}>
-                <Table responsive>
-                  <thead>
-                    <tr>
-                      <th onClick={handleClickRP}>RP  <FaSort size={15} /></th>
-                      <th onClick={handleClickEP}>Est. Prod. <FaSort size={15} /></th>
-                      <th onClick={handleClickER}>Est. Rep. <FaSort size={15} /></th>
-                      <th>eRP</th>
-                      <th>Accion</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {animales.map(a => (
-                      <DetalleAnimal
-                        key={a.id}
-                        animal={a}
-                        guardarElim={guardarElim}
+      <>
+        <Botonera>
+          <Row>
+            <Col lg={true}>
+              <h6>Listado de animales: {animales.length}</h6>
+            </Col>
+          </Row>
+          <Row>&nbsp;</Row>
+          <Row>
+            <Col lg={true}>
+              <Form
+                onSubmit={handleSubmit}
+              >
+                <Row>
+                  <Col lg={true}>
+                    <Form.Group>
+                      <Form.Control
+                        type="string"
+                        id="rp"
+                        placeholder="RP / eRP"
+                        name="rp"
+                        value={rp}
+                        onChange={handleChange}
                       />
-                    )
-                    )}
-                  </tbody>
-                </Table>
-              </StickyTable>
-            </Contenedor>
-          :
-          <SelectTambo />
+                    </Form.Group>
+                  </Col>
+                  <Col lg={true}>
+                    <Form.Group>
+                      <Button
+                        variant="info" block
+                        type="submit"
+                      >
+                        <RiSearchLine size={22} />
+                  &nbsp;
+                  Buscar
+                  </Button>
+                    </Form.Group>
+                  </Col>
+                  <Col md="auto">
+                    <Link
+                      href="/animales/[id]" as={'/animales/0'}
+                    >
+                      <span>
+                        <Button
+                          variant="success" block
+                        >
+                          <RiAddBoxLine size={24} />
+                          &nbsp;
+                          Alta Animal
+                        </Button>
+                      </span>
+                    </Link>
+                  </Col>
+                </Row>
+              </Form>
+            </Col>
+          </Row>
+        </Botonera >
 
-      }
+        {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
+          //si hay tambo
+          (tamboSel) ?
+            animales.length == 0 ?
+              <Mensaje>
+                <Alert variant="warning" >No se encontraron resultados</Alert>
+              </Mensaje>
+              :
+              <Contenedor>
+                <StickyTable height={370}>
+                  <Table responsive>
+                    <thead>
+                      <tr>
+                        <th onClick={handleClickRP}>RP  <FaSort size={15} /></th>
+                        <th onClick={handleClickEP}>Est. Prod. <FaSort size={15} /></th>
+                        <th onClick={handleClickER}>Est. Rep. <FaSort size={15} /></th>
+                        <th>eRP</th>
+                        <th>Accion</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {animales.map(a => (
+                        <DetalleAnimal
+                          key={a.id}
+                          animal={a}
+                          guardarElim={guardarElim}
+                        />
+                      )
+                      )}
+                    </tbody>
+                  </Table>
+                </StickyTable>
+              </Contenedor>
+            :
+            <SelectTambo />
+        }
 
-      {/* Modal for notifications */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Notificaciones</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <p>{modalMessage}</p>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Cerrar
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        {/* Modal for notifications */}
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
+          <Modal.Header closeButton>
+            <Modal.Title>Notificaciones</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p>{modalMessage}</p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Cerrar
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </>
     </Layout >
 
   )

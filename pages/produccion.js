@@ -253,9 +253,10 @@ const Produccion = () => {
 
   return (
     <Layout titulo="Producción">
-      <Botonera>
-        <Form onSubmit={(e) => { e.preventDefault(); handleSubmit(valores); }}>
-          <Row className="Repo-produ-filtros">
+      <>
+        <Botonera>
+          <Form onSubmit={(e) => { e.preventDefault(); handleSubmit(valores); }}>
+            <Row className="Repo-produ-filtros">
             <Col lg>
               <Form.Label>Desde</Form.Label>
               <ButtonGroup className="produccion-botonera">
@@ -380,6 +381,7 @@ const Produccion = () => {
       ) : (
         <SelectTambo />
       )}
+      </>
     </Layout>
 
   )

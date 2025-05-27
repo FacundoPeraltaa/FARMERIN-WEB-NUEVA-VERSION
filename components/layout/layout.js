@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import Sidebar from './sidebar';
+import NavBar from './NavBar';
 import Navegacion from './navegacion';
 import Footer from './footer'
 import { useRouter } from 'next/router';
@@ -33,33 +33,20 @@ const Layout = props => {
 
   return (
 
-    <div className={`app  ${toggled ? 'toggled' : ''}`}>
-
-      <Sidebar
-
+    <div className="mainLayout" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <NavBar
         collapsed={collapsed}
         toggled={toggled}
         handleToggleSidebar={handleToggleSidebar}
       />
 
-      <main>
-        <header>
-          <h1>{props.titulo}</h1>
-        </header>
-
-        <Navegacion
-          collapsed={collapsed}
-          toggled={toggled}
-          handleToggleSidebar={handleToggleSidebar}
-          handleCollapsedChange={handleCollapsedChange}
-          titulo={props.titulo}
-        />
-
-
+      <main className="mainContent" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+      
 
         <div style={{
-          paddingTop: "6rem"
+          paddingTop: "30px"
         }}>
+          {/* Permitir múltiples hijos, fragmentos, etc. */}
           {props.children}
         </div>
 

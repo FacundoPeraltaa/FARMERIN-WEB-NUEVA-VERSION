@@ -76,6 +76,7 @@ const MiComponente = () => {
 
   return (
     <Layout titulo="Herramientas">
+      <>
       <div>
         <button onClick={obtenerAnimales} disabled={loading}>
           {loading ? "Cargando..." : "Obtener Animales"}
@@ -93,6 +94,7 @@ const MiComponente = () => {
           ))}
         </ul>
       </div>
+      </>
     </Layout>
   );
 };

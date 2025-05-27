@@ -53,6 +53,7 @@ const Usuarios = () => {
     <Layout
       titulo="Usuarios"
     >
+      <>
       <Botonera>
         <Row>
           <Col lg={true}>
@@ -62,6 +63,7 @@ const Usuarios = () => {
           <Col md="auto">
 
             <Link href="/tambos/[id]" as={`/tambos/0`}>
+              <span>  
               <Button
                 variant="success"
               >
@@ -70,6 +72,7 @@ const Usuarios = () => {
                 Nuevo Usuario
 
               </Button>
+              </span>
             </Link>
 
           </Col>
@@ -110,10 +113,11 @@ const Usuarios = () => {
               </StickyTable>
             </Contenedor>
           :
-          <SelectTambo />
+            <SelectTambo />
 
-      }
-    </Layout >
+        }
+      </>
+      </Layout >
 
   )
 }

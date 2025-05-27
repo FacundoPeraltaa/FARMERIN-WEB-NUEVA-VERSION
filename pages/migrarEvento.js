@@ -90,6 +90,7 @@ function EventoMigracion() {
 
   return (
     <Layout titulo="Migrar Evento">
+      <>
       <div>
         <h2>Migración de Eventos</h2>
         {cargando ? (
@@ -125,6 +126,7 @@ function EventoMigracion() {
           </>
         )}
       </div>
+      </>
     </Layout>
   );
 }

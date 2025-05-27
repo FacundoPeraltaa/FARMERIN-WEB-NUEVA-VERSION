@@ -48,15 +48,17 @@ function BotonAgregar() {
 
     return (
         <Layout>
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
-                <button onClick={agregarCampo}>
-                    Agregar Campo
+            <>
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
+                    <button onClick={agregarCampo}>
+                        Agregar Campo
                 </button>
                 <button onClick={eliminarCampos}>
                     Eliminar Campos
                 </button>
                 {mensaje && <p>{mensaje}</p>}
             </div>
+            </>
         </Layout>
     );
 }

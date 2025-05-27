@@ -22,6 +22,9 @@ const Dirsa = () => {
     const inputFileRefEvento = useRef(null);
     const inputFileRefLechero = useRef(null);
 
+    const [total, setTotal] = useState(0);
+    const [procesados, setProcesados] = useState(0);
+
     const limpiarRP = (rp) => rp?.toString().trim().toUpperCase() || "";
 
     const convertirFecha = (valor) => {
@@ -61,6 +64,8 @@ const Dirsa = () => {
         setIsLoading(true);
         setActualizados([]);
         setErrores([]);
+        setProcesados(0);
+        setTotal(0);
 
         const reader = new FileReader();
         reader.onload = async (e) => {
@@ -110,6 +115,7 @@ const Dirsa = () => {
                 }
 
                 setDatosPreview(jsonData.slice(0, 5));
+                setTotal(jsonData.length);
 
                 if (!tamboSel || !tamboSel.id) {
                     setErrores(["Debes seleccionar un tambo antes de cargar los datos."]);
@@ -127,11 +133,12 @@ const Dirsa = () => {
                     evento.RP = rpLimpio;
 
                     try {
-                        await procesarParto(evento, tamboSel, firebase, usuario);
+                        await procesarParto(evento, tamboSel, firebase, usuario, setErrores);
                         setActualizados(prev => [...prev, `✅ Parto registrado para RP ${rpLimpio}`]);
                     } catch (error) {
                         setErrores(prev => [...prev, `❌ Error registrando parto para RP ${rpLimpio}: ${error.message}`]);
                     }
+                    setProcesados(prev => prev + 1);
                 }
 
                 const otrosEventos = jsonData.filter(evento => {
@@ -146,6 +153,7 @@ const Dirsa = () => {
                     } catch (error) {
                         setErrores(prev => [...prev, `❌ Error en RP ${evento.RP}: ${error.message}`]);
                     }
+                    setProcesados(prev => prev + 1);
                 }
 
             } catch (error) {
@@ -155,14 +163,18 @@ const Dirsa = () => {
                 setIsLoading(false);
             }
         };
+
         reader.readAsArrayBuffer(archivoEvento);
     };
+
 
     const handleUploadLechero = async () => {
         if (!archivoLechero) return;
         setIsLoading(true);
         setActualizados([]);
         setErrores([]);
+        setProcesados(0);
+        setTotal(0);
 
         const reader = new FileReader();
         reader.onload = async (e) => {
@@ -207,7 +219,17 @@ const Dirsa = () => {
                     return;
                 }
 
-                await subirControlLechero(datosLimpios, tamboSel, setErrores, setActualizados, () => { }, firebase, usuario);
+                setTotal(datosLimpios.length);
+                await subirControlLechero(
+                    datosLimpios,
+                    tamboSel,
+                    setErrores,
+                    setActualizados,
+                    () => setProcesados(prev => prev + 1), // callback
+                    firebase,
+                    usuario
+                );
+
             } catch (error) {
                 console.error("Error leyendo el archivo de control lechero:", error);
                 setErrores(["Error procesando el archivo de control lechero."]);
@@ -215,8 +237,10 @@ const Dirsa = () => {
                 setIsLoading(false);
             }
         };
+
         reader.readAsArrayBuffer(archivoLechero);
     };
+
 
     return (
         <Layout titulo="Dirsa">
@@ -306,7 +330,11 @@ const Dirsa = () => {
                     titulo="📝 Resultados de la Carga"
                     actualizados={actualizados}
                     errores={errores}
+                    loading={isLoading}
+                    total={total}
+                    procesados={procesados}
                 />
+
             </Container>
         </Layout>
     );

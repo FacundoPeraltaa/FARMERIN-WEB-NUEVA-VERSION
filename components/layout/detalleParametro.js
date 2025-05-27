@@ -124,14 +124,16 @@ function snapshotParametros(snapshot) {
                   <Link
                      href="/parametros/[id]" as={'/parametros/0'}
                   >
+                     <span>
                      <Button
                         variant="light"
                      //onClick={handleShow}
                      >
                         <RiAddBoxLine size={20} />
-                  &nbsp;
-                  Nuevo
-                  </Button>
+                        &nbsp;
+                        Nuevo
+                     </Button>
+                     </span>
                   </Link>
                </Col>
 

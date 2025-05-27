@@ -145,6 +145,7 @@ const Recepciones = () => {
     <Layout
       titulo="Recepciones"
     >
+      <>
       <Botonera>
 
         <Form
@@ -335,6 +336,7 @@ const Recepciones = () => {
           <SelectTambo />
 
       }
+      </>
     </Layout >
 
   )

@@ -143,6 +143,7 @@ const EncontrarERPRepetidos = () => {
   if (loading) {
     return (
       <Layout titulo="Herramientas">
+        <>
         <div className="spinnerContainer-Grafico">
           <div className="spinner-Grafico"></div>
           <div className="loader-Grafico">
@@ -155,12 +156,14 @@ const EncontrarERPRepetidos = () => {
             </div>
           </div>
         </div>
+        </>
       </Layout>
     );
   }
 
   return (
     <Layout titulo="ERP Repetidos">
+      <>
       <div className="EncontrarERP-container">
         <div className="erp-repetidos-header">
           <h1>ERP Repetidos</h1>
@@ -197,6 +200,7 @@ const EncontrarERPRepetidos = () => {
           <p>No se encontraron resultados</p>
         )}
       </div>
+      </>
     </Layout>
   );
 };

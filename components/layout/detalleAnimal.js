@@ -108,20 +108,19 @@ const DetalleAnimal = ({ animal, guardarElim }) => {
                   </Button>
                </OverlayTrigger>
                <Link
-                  href="/animales/[id]" as={`/animales/${id}`}
-               >
-
-                  <Button
-                     variant="link"
-                  >
-                     <OverlayTrigger
-                        placement="bottom"
-                        overlay={<Tooltip >Editar</Tooltip>}
-                     >
-                        <RiEdit2Line size={22} />
-                     </OverlayTrigger>
-                  </Button>
-
+                  href="/animales/[id]" as={`/animales/${id}`}>
+                  <span>
+                    <Button
+                       variant="link"
+                    >
+                       <OverlayTrigger
+                          placement="bottom"
+                          overlay={<Tooltip >Editar</Tooltip>}
+                       >
+                          <RiEdit2Line size={22} />
+                       </OverlayTrigger>
+                    </Button>
+                  </span>
                </Link>
 
                <OverlayTrigger

@@ -105,16 +105,27 @@ const Login = () => {
     };
   }, []);
 
+
   return (
     <div className={styles.loginContainer}>
-      {/* 📱 Mockup estilo Instagram con SCSS puro */}
+      {/* 🔄 Overlay loader moderno */}
+      {procesando && (
+        <div className={styles.loaderOverlay}>
+          <div className={styles.loaderContent}>
+            <div className={styles.loaderSpinner}></div>
+            <span>Iniciando sesión...</span>
+          </div>
+        </div>
+      )}
+
+      {/* 📱 Mockup estilo Instagram */}
       <div className={styles.loginImageSection}>
         <div className={styles.phoneMockup}>
           <span className={styles.notch}></span>
           <span className={styles.sideButtonTop}></span>
           <span className={styles.sideButtonBottom}></span>
           <img
-            src="/VacaWord.jpg"
+            src="/FondoLoginN.jpg"
             alt="App Preview"
             className={styles.phoneScreen}
           />
@@ -125,6 +136,7 @@ const Login = () => {
       <div className={styles.loginFormSection}>
         <div className={styles.loginCard}>
           <img src="/logoLetras.png" alt="Logo" className={styles.loginLogo} />
+
           <form onSubmit={handleSubmit} className={styles.loginForm}>
             <input
               type="email"
@@ -137,57 +149,48 @@ const Login = () => {
             />
             {errores.email && <p className={styles.errorText}>{errores.email}</p>}
 
-            <div className={styles.passwordInputContainer}>
+            <div className={styles.inputWithIconPass}>
               <input
                 type={showPass ? 'text' : 'password'}
                 name="password"
                 placeholder="Contraseña"
                 value={password}
                 onChange={handleChange}
-                className={styles.loginInput}
+                className={styles.passwordInput}
                 required
               />
-              <Button
-                variant="light"
-                onClick={() => setShowPass(!showPass)}
-                size="sm"
-                className={styles.togglePassBtn}
-              >
-                {showPass ? <IoMdEyeOff size={18} /> : <IoMdEye size={18} />}
-              </Button>
+              <span onClick={() => setShowPass(!showPass)} className={styles.icon}>
+                {showPass ? <IoMdEyeOff size={20} /> : <IoMdEye size={20} />}
+              </span>
             </div>
             {errores.password && <p className={styles.errorText}>{errores.password}</p>}
             {error && <p className={styles.errorText}>{error}</p>}
 
-            <button type="submit" className={styles.loginButton}>
-              Iniciar sesión
+            <button type="submit" className={styles.loginButton} disabled={procesando}>
+              {procesando ? 'Espere...' : 'Iniciar sesión'}
             </button>
 
             <div className={styles.divider}><span>O</span></div>
 
-            <button type="button" className={styles.loginFacebook}>
-              <i className="fa-brands fa-facebook"></i> Iniciar sesión con Facebook
-            </button>
-
-            <button type="button" onClick={() => setShowForgotPassword(true)} className={styles.forgotLink}>
+            <div className={styles.loginRegisterCard}>
               ¿Olvidaste tu contraseña?
-            </button>
+              <button type="button" onClick={() => setShowForgotPassword(true)} className={styles.forgotLink}>
+                Recuperar o Cambiar
+              </button>
+            </div>
+
           </form>
         </div>
 
         <div className={styles.loginRegisterCard}>
           ¿No tienes una cuenta?{' '}
           <button onClick={() => setShow(true)} className={styles.registerLink}>
-            Regístrate
+            Regístrate en Farmerin
           </button>
         </div>
-
-        <div className={styles.loginApps}>
-          <p>Descarga la app.</p>
-          <div className={styles.storeButtons}>
-            <img src="/googleplay.png" alt="Google Play" />
-            <img src="/microsoft.png" alt="Microsoft" />
-          </div>
+        <div>
+          <div className={styles.divider}><span>O</span></div>
+          <p className='TextFaarmerin'> Farmerin Division S.A. - © 2020</p>
         </div>
       </div>
 
@@ -241,6 +244,9 @@ const Login = () => {
       </Modal>
     </div>
   );
+
+
+
 }
 
 export default Login;

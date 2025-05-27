@@ -65,7 +65,7 @@ const Dirsa = () => {
         setIsLoading(true);
         setActualizados([]);
         setErrores([]);
-    
+
         const reader = new FileReader();
         reader.onload = async (e) => {
             try {
@@ -73,43 +73,43 @@ const Dirsa = () => {
                 const workbook = XLSX.read(data, { type: 'array' });
                 const sheet = workbook.Sheets[workbook.SheetNames[0]];
                 let jsonData = XLSX.utils.sheet_to_json(sheet, { header: 1 });
-    
+
                 if (jsonData.length === 0) {
                     setErrores(["El archivo está vacío o no tiene datos."]);
                     setIsLoading(false);
                     return;
                 }
-    
+
                 // 🔍 LIMPIEZA Y DETECCIÓN DINÁMICA DE ENCABEZADOS
                 const limpiarTexto = (texto) => texto?.toString().trim().toUpperCase() || "";
                 const encabezadosOriginales = jsonData[0];
                 const encabezadosMapeados = encabezadosOriginales.map(limpiarTexto);
-    
+
                 const clavesEsperadas = {
                     rp: ["RP"],
                     codigoEvento: ["CODIGO DE EVENTO (*)", "CODIGO EVENTO", "CÓDIGO EVENTO"],
                     fechaEvento: ["FECHA DE EVENTO (XX/XX/XXXX)", "FECHA EVENTO"]
                 };
-    
+
                 const encontrarIndice = (claves) =>
                     encabezadosMapeados.findIndex(encabezado =>
                         claves.some(clave => encabezado.includes(clave))
                     );
-    
+
                 const indiceRP = encontrarIndice(clavesEsperadas.rp);
                 const indiceCodigoEvento = encontrarIndice(clavesEsperadas.codigoEvento);
                 const indiceFechaEvento = encontrarIndice(clavesEsperadas.fechaEvento);
-    
+
                 if (indiceRP === -1 || indiceCodigoEvento === -1 || indiceFechaEvento === -1) {
                     setErrores(["Error: La estructura del archivo es incorrecta. Verifica los encabezados de RP, Código de Evento y Fecha de Evento."]);
                     setIsLoading(false);
                     return;
                 }
-    
+
                 // 🔄 MAPEAR CADA FILA A OBJETOS
                 jsonData = jsonData.slice(1).map((row) => {
                     const obj = {};
-    
+
                     encabezadosOriginales.forEach((encabezado, i) => {
                         let valor = row[i];
                         if (limpiarTexto(encabezado).includes("FECHA")) {
@@ -117,41 +117,41 @@ const Dirsa = () => {
                         }
                         obj[encabezado] = typeof valor === "string" ? valor.trim() : valor;
                     });
-    
+
                     // Limpiar RP
                     if (obj[encabezadosOriginales[indiceRP]]) {
                         obj["RP"] = obj[encabezadosOriginales[indiceRP]].toString().replace(/\s+/g, "").toUpperCase();
                     }
-    
+
                     // Normalizar acceso a campos clave
                     obj["CODIGO DE EVENTO (*)"] = obj[encabezadosOriginales[indiceCodigoEvento]];
                     obj["FECHA DE EVENTO (xx/xx/xxxx)"] = obj[encabezadosOriginales[indiceFechaEvento]];
-    
+
                     return obj;
                 }).filter(item =>
                     item.RP &&
                     item["CODIGO DE EVENTO (*)"] &&
                     item["CODIGO DE EVENTO (*)"].toString().trim() !== ""
                 );
-    
+
                 if (jsonData.length === 0) {
                     setErrores(["No hay datos válidos en la planilla."]);
                     setIsLoading(false);
                     return;
                 }
-    
+
                 setDatosPreview(jsonData.slice(0, 5));
-    
+
                 if (!tamboSel || !tamboSel.id) {
                     setErrores(["Debes seleccionar un tambo antes de cargar los datos."]);
                     setIsLoading(false);
                     return;
                 }
-    
+
                 console.log("📊 Total eventos cargados:", jsonData.length);
                 const eventosParto = jsonData.filter(evento => evento["CODIGO DE EVENTO (*)"] === "PA");
                 console.log("🐄 Eventos de parto detectados:", eventosParto.length);
-    
+
                 for (const evento of eventosParto) {
                     const rpLimpio = evento.RP;
                     try {
@@ -161,17 +161,17 @@ const Dirsa = () => {
                         setErrores(prev => [...prev, `❌ Error registrando parto para RP ${rpLimpio}: ${error.message}`]);
                     }
                 }
-    
+
                 const otrosEventos = jsonData.filter(e => e["CODIGO DE EVENTO (*)"] !== "PA");
                 for (const evento of otrosEventos) {
                     try {
-                        await procesarEventosTambo([evento], tamboSel, setErrores, setActualizados, () => {}, firebase, usuario);
+                        await procesarEventosTambo([evento], tamboSel, setErrores, setActualizados, () => { }, firebase, usuario);
                         setActualizados(prev => [...prev, `✅ RP ${evento.RP} actualizado`]);
                     } catch (error) {
                         setErrores(prev => [...prev, `❌ Error en RP ${evento.RP}: ${error.message}`]);
                     }
                 }
-    
+
             } catch (error) {
                 console.error("❌ Error al procesar el archivo:", error);
                 setErrores(["Error al procesar el archivo."]);
@@ -179,10 +179,10 @@ const Dirsa = () => {
                 setIsLoading(false);
             }
         };
-    
+
         reader.readAsArrayBuffer(archivoEvento);
     };
-    
+
     //// LOGICA DE ACTUALIZACION DE CONTROL LECHERO ( cargarControlLechero.js )
     const handleUploadControlLechero = async () => {
         if (!archivoControl) return;
@@ -249,43 +249,45 @@ const Dirsa = () => {
 
     return (
         <Layout titulo="Dirsa">
-            <Col md={4} className="d-flex align-items-center justify-content-center">
-                <Image src="/dirsa.png" width={300} />
-            </Col>
+            <>
+                <Col md={4} className="d-flex align-items-center justify-content-center">
+                    <Image src="/dirsa.png" width={300} />
+                </Col>
 
-            <Row className="mt-4 d-flex justify-content-center">
-                <input
-                    type="file"
-                    accept=".xlsx,.xls,.csv"
-                    ref={inputFileRefEvento}
-                    style={{ display: 'none' }}
-                    onChange={handleFileChange}
-                />
-                <Button onClick={() => inputFileRefEvento.current?.click()} variant="primary" className="mx-2">
-                    Cargar Eventos
-                </Button>
-                <Button onClick={handleUpload} variant="success" className="mx-2" disabled={!archivoEvento || isLoading}>
-                    {isLoading ? <Spinner animation="border" size="sm" /> : "Actualizar Eventos"}
-                </Button>
-            </Row>
+                <Row className="mt-4 d-flex justify-content-center">
+                    <input
+                        type="file"
+                        accept=".xlsx,.xls,.csv"
+                        ref={inputFileRefEvento}
+                        style={{ display: 'none' }}
+                        onChange={handleFileChange}
+                    />
+                    <Button onClick={() => inputFileRefEvento.current?.click()} variant="primary" className="mx-2">
+                        Cargar Eventos
+                    </Button>
+                    <Button onClick={handleUpload} variant="success" className="mx-2" disabled={!archivoEvento || isLoading}>
+                        {isLoading ? <Spinner animation="border" size="sm" /> : "Actualizar Eventos"}
+                    </Button>
+                </Row>
 
-            <Row className="mt-3 d-flex justify-content-center">
-                <input
-                    type="file"
-                    accept=".xlsx,.xls,.csv"
-                    ref={inputFileRefControl}
-                    style={{ display: 'none' }}
-                    onChange={handleFileChangeControl}
-                />
-                <Button onClick={() => inputFileRefControl.current?.click()} variant="secondary" className="mx-2">
-                    Cargar Control Lechero
-                </Button>
-                <Button onClick={handleUploadControlLechero} variant="warning" className="mx-2" disabled={!archivoControl || isLoading}>
-                    {isLoading ? <Spinner animation="border" size="sm" /> : "Actualizar Control Lechero"}
-                </Button>
-            </Row>
+                <Row className="mt-3 d-flex justify-content-center">
+                    <input
+                        type="file"
+                        accept=".xlsx,.xls,.csv"
+                        ref={inputFileRefControl}
+                        style={{ display: 'none' }}
+                        onChange={handleFileChangeControl}
+                    />
+                    <Button onClick={() => inputFileRefControl.current?.click()} variant="secondary" className="mx-2">
+                        Cargar Control Lechero
+                    </Button>
+                    <Button onClick={handleUploadControlLechero} variant="warning" className="mx-2" disabled={!archivoControl || isLoading}>
+                        {isLoading ? <Spinner animation="border" size="sm" /> : "Actualizar Control Lechero"}
+                    </Button>
+                </Row>
 
-            <ResultadosCargas titulo="Resultados de la Carga" actualizados={actualizados} errores={errores} />
+                <ResultadosCargas titulo="Resultados de la Carga" actualizados={actualizados} errores={errores} />
+            </>
         </Layout>
     );
 };

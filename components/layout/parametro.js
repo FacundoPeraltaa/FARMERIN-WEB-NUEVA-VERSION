@@ -168,21 +168,19 @@ const Parametro = ({ parametro, parametros, guardarParametros, porcentaje }) => 
 
             <Link
                href="/parametros/[id]" as={`/parametros/${id}`}
-
             >
-
-               <Button
-                  variant="link"
-
-               >
-                  <OverlayTrigger
-                     placement="bottom"
-                     overlay={<Tooltip >Editar</Tooltip>}
-                  >
-                     <RiEdit2Line size={24} />
-                  </OverlayTrigger>
-               </Button>
-
+               <span>
+                 <Button
+                    variant="link"
+                 >
+                    <OverlayTrigger
+                       placement="bottom"
+                       overlay={<Tooltip >Editar</Tooltip>}
+                    >
+                       <RiEdit2Line size={24} />
+                    </OverlayTrigger>
+                 </Button>
+               </span>
             </Link>
 
             {(orden != 1) ?

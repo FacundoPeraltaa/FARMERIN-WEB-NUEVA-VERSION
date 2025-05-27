@@ -144,7 +144,8 @@ const Parametros = () => {
 
   return (
     <Layout titulo="Parámetros Nutricionales">
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+      <>
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
         <h1 style={{ color: "#404040", fontWeight: "bold", fontSize: "34px", marginTop: 0 }}>ALIMENTACIÓN</h1>
         <div style={{ display: "flex", flexDirection: "row", gap: "7px" }}>
           <p style={{ color: "grey", fontWeight: "bold", fontSize: "18px", marginTop: 0 }}>ESTADO ACTUAL: </p>
@@ -225,6 +226,7 @@ const Parametros = () => {
           :
           <SelectTambo />
       }
+      </>
     </Layout >
 
   );

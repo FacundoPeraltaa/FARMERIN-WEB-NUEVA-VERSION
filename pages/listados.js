@@ -60,6 +60,7 @@ const Listados = () => {
     <Layout
       titulo="Listados"
     >
+      <>
       <Botonera>
         <h5>Tipos</h5>
         <Row>
@@ -87,6 +88,7 @@ const Listados = () => {
           <Col md="auto">
 
             <Link href="/listados/[id]" as={`/listados/0`}>
+              <span>
               <Button
                 variant="success"
               >
@@ -95,6 +97,7 @@ const Listados = () => {
                 Nueva Opción
 
               </Button>
+              </span>
             </Link>
 
           </Col>
@@ -128,7 +131,7 @@ const Listados = () => {
           <SelectTambo />
         }
       </Contenedor>
-
+      </>
     </Layout>
 
   )

@@ -185,6 +185,7 @@ function NoRegs() {
 
   return (
     <Layout titulo="Verificación ingreso">
+      <>
       <div className="listaNoRegs">
         <h1 className="tituloNoRegs">Lista de  Animales con Estado Seco, Cria o No Registrado</h1>
         <button className="excelNoRegs" onClick={handleDownload}>Excel</button>
@@ -230,6 +231,7 @@ function NoRegs() {
           </StickyTable>
         )}
       </Contenedor>
+      </>
     </Layout>
 
 

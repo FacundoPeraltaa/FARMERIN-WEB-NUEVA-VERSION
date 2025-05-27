@@ -277,8 +277,9 @@ const TestFuncion = () => {
         <Layout
             titulo="Test Funcion Racion"
         >
-            {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
-                <Botonera>
+            <>
+                {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
+                    <Botonera>
 
                     <Form
                         onSubmit={handleSubmit}
@@ -339,6 +340,7 @@ const TestFuncion = () => {
                 :
                 <SelectTambo />
             }
+            </>
         </Layout>
 
     )

@@ -85,6 +85,8 @@ const GraficoMachoHembra = () => {
     const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#A28DFF'];
 
     return (
+        <Layout titulo="Distribución de Animales">
+        <>
         <div>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
             <div style={{ textAlign: 'center', marginBottom: '20px' }}>
@@ -131,7 +133,9 @@ const GraficoMachoHembra = () => {
                 </BarChart>
             </ResponsiveContainer>
             </div>
-            </div>
+                </div>
+        </>
+        </Layout>
     );
 };
 

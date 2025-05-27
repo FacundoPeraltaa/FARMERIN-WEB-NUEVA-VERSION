@@ -1,0 +1,299 @@
+/* SE VA A PODER MODIFICAR TODO LO QUE TENGA QUE VER CON EL APARTADO DONDE SELECCIONAS LOS TAMBOS */
+
+/* Card donde seleccionas Tambo */
+.card {
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  background-color: #fff;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cardContent {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  width: 100%;
+  gap: 1rem;
+}
+
+.nombreUbicacion {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+}
+
+.nombre {
+  font-weight: 600;
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.ubicacion {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.botonCentro {
+  display: flex;
+  justify-content: center;
+}
+
+.acciones {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+
+
+.btnIngresar {
+  font-weight: 500;
+  padding: 0.4rem 1rem;
+  border-radius: 8px;
+}
+
+.actions {
+  display: flex;
+  gap: 0.6rem;
+  flex-shrink: 0;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2a2a2a;
+}
+
+.subtitle {
+  font-size: 0.95rem;
+  color: #666;
+}
+
+
+
+/* ENCABEZADO TEXTO Y BOTON */
+.encabezado {
+  background-color: #f4f6f8;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.titulo h3 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 1.6rem;
+  color: #2b2b2b;
+}
+
+.titulo p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: #666;
+}
+
+.btnNuevoTambo {
+  background: linear-gradient(135deg, #1abc9c, #16a085);
+  border: none;
+  padding: 0.65rem 1.25rem;
+  font-weight: 500;
+  font-size: 1rem;
+  border-radius: 10px;
+  color: white;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: linear-gradient(135deg, #16a085, #148f77);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  svg {
+    vertical-align: middle;
+  }
+}
+
+/// BOTON DE CREAR PARA USUARIO SIN TAMBO Y TITULO 
+.tituloEmpty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.75rem;
+  background: linear-gradient(135deg, #e9f5ff, #d6eaff); // Fondo celeste claro degradado
+  padding: 1.5rem 2rem;
+  border-radius: 1rem;
+  color: #004a9f; // Azul fuerte profesional
+  font-size: 1.8rem;
+  font-weight: 700;
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.15);
+  text-align: center;
+  animation: fadeInUp 0.6s ease-out;
+
+  span.emoji {
+    font-size: 2.4rem;
+  }
+}
+
+@keyframes fadeInUp {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+.btnCrear {
+  background-color: #297fba; // Azul profesional
+  color: #fff;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+  transition: all 0.3s ease;
+
+  svg {
+    margin-right: 0.5rem;
+  }
+
+  &:hover {
+    background-color: #0056b3;
+    box-shadow: 0 6px 16px rgba(0, 86, 179, 0.4);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.98);
+    background-color: #004a9f;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+  }
+}
+
+
+/* IMAGENES Y TEXTOS */
+.divider {
+  text-align: center;
+  margin: 3rem 0;
+  max-width: 100%;
+
+  span {
+    display: inline-block;
+    padding: 0.5rem 1.5rem;
+    border: 2px solid #ccc;
+    border-radius: 999px;
+    background-color: #fff;
+    font-weight: bold;
+    color: #888;
+  }
+}
+
+.benefitsGrid {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 4rem 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-flow: dense;
+  gap: 2rem;
+}
+
+.benefitImage {
+  width: 100%;
+  height: auto;
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.benefitText {
+  background-color: #fff;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  border-radius: 6px;
+  position: relative;
+
+  h5 {
+    color: #297fba;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  p {
+    color: #333;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+}
+
+.benefitText {
+  padding: 1.5rem;
+  border-radius: 12px;
+  color: white;
+  font-weight: 500;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.reportes {
+  background-color: #28a745; // Verde
+
+  h5 {
+    color: #f4f6f8;
+
+  }
+
+  p {
+    color: #f4f6f8;
+
+  }
+
+}
+
+.control {
+  background-color: #1e7e34; // Verde más oscuro, si preferís otro tono
+
+  h5 {
+    color: #f4f6f8;
+
+  }
+
+  p {
+    color: #f4f6f8;
+
+  }
+}
+
+.nutricion {
+  background-color: #297fba; // Azul
+
+  h5 {
+    color: #f4f6f8;
+
+
+  }
+
+  p {
+    color: #f4f6f8;
+
+  }
+}

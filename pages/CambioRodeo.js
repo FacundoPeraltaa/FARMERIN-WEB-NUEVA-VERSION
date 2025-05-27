@@ -86,14 +86,16 @@ export default function CambioRodeo() {
 
     return (
         <Layout titulo="Cambio de Rodeo">
-        <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh'}}>
-            <h1>Cambio de Rodeo</h1>
-            <button onClick={actualizarRodeoRacion9}>Actualizar Rodeo para Ración 9</button>
-            <button onClick={actualizarRodeoRacion1}>Actualizar Rodeo para Ración 1</button>
-            <button onClick={actualizarRodeoRacion5}>Actualizar Rodeo para Ración 5</button>
-            <button onClick={actualizarRodeoRacion2}>Actualizar Rodeo para Ración 2</button>
-            {mensaje && <p>{mensaje}</p>}
-        </div>
+            <>
+                <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh'}}>
+                    <h1>Cambio de Rodeo</h1>
+                    <button onClick={actualizarRodeoRacion9}>Actualizar Rodeo para Ración 9</button>
+                    <button onClick={actualizarRodeoRacion1}>Actualizar Rodeo para Ración 1</button>
+                    <button onClick={actualizarRodeoRacion5}>Actualizar Rodeo para Ración 5</button>
+                    <button onClick={actualizarRodeoRacion2}>Actualizar Rodeo para Ración 2</button>
+                    {mensaje && <p>{mensaje}</p>}
+                </div>
+            </>
         </Layout>
     );
 }

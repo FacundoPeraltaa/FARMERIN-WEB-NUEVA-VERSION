@@ -403,6 +403,7 @@ const AltaMasiva = () => {
     <Layout
       titulo="Alta Masiva"
     >
+      <>
       {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
         <Botonera>
 
@@ -523,6 +524,7 @@ const AltaMasiva = () => {
         :
         <SelectTambo />
       }
+      </>
     </Layout>
 
   )

@@ -54,6 +54,7 @@ const ListaAnimales = () => {
 
   return (
     <Layout titulo='Cambio a Vaq.p/Servicio a Seca'>
+    <>
     <div className="containerCambioAseca">
       {/* Botón para obtener animales */}
       <button
@@ -103,6 +104,7 @@ const ListaAnimales = () => {
         <p className="noAnimalesCambioAseca">No hay animales con ese estado.</p>
       )}
     </div>
+    </>
     </Layout>
   );
 };

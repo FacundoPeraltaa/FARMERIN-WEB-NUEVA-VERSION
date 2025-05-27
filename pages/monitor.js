@@ -43,6 +43,7 @@ const Monitor = () => {
 
   return (
     <Layout titulo="Monitor de ingreso">
+      <>
     <div>
       {loading || isLoadingIframe ? (
          <div className="spinnerContainer-Monitor">
@@ -88,6 +89,7 @@ const Monitor = () => {
       </div>
       )}
     </div>
+    </>
   </Layout>
   );
 };

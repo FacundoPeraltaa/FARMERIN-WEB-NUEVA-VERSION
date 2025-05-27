@@ -176,6 +176,7 @@ const ControlLechero = () => {
     <Layout
       titulo="Control Lechero"
     >
+      <>
       {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
         <Botonera>
           <Form onSubmit={handleSubmit}>
@@ -303,6 +304,7 @@ const ControlLechero = () => {
         :
         <SelectTambo />
       }
+      </>
     </Layout>
 
   )

@@ -150,6 +150,7 @@ function control_ingreso() {
   if (loading) {
     return (
       <Layout titulo="Herramientas">
+        <>
         <div className="spinnerContainer-Grafico">
           <div className="spinner-Grafico"></div>
           <div className="loader-Grafico">
@@ -163,6 +164,7 @@ function control_ingreso() {
             </div>
           </div>
         </div>
+        </>
       </Layout>
     );
   }
@@ -170,10 +172,12 @@ function control_ingreso() {
   if (error) {
     return (
       <Layout titulo="Herramientas">
+        <>
         <div className="errorContainer">
           <h1 className="tituloRacionesAviso">Aviso</h1>
           <h2 className="tituloRacionesAviso"> No se pudo obtener el control de ingreso </h2>
         </div>
+        </>
       </Layout>
     );
   }
@@ -181,16 +185,19 @@ function control_ingreso() {
   if (data.length === 0) {
     return (
       <Layout titulo="Herramientas">
+        <>
         <div className="divRaciones">
           <h1 className="tituloRacionesAviso"> Aviso </h1>
           <h2 className="tituloRacionesAviso"> No se pudo obtener el control de ingreso </h2>
         </div>
+        </>
       </Layout>
     );
   }
 
   return (
     <Layout titulo="Herramientas">
+      <>
       <div className="containerGrafico">
         <div className="tamboHeader">
           <h2 className="tituloTambo">{tamboSel?.nombre} - Control de Ingreso</h2>
@@ -210,8 +217,9 @@ function control_ingreso() {
           secosNaNData={secosNaNData}
           onSecosNaNDataConRPUpdate={setAnimalesConRP}
         />
-      </div>
+        </div>
       <AnimalesEnOrdeñe show={showFichaEnOrdeñe} setShow={setShowFichaEnOrdeñe} />
+      </>
     </Layout>
   );
 }

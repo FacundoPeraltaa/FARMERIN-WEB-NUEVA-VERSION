@@ -49,16 +49,18 @@ const DetalleListado = ({ listado }) => {
                <Link
                   href="/listados/[id]" as={`/listados/${id}`}
                >
-                  <Button
-                     variant="link"
-                  >
-                      <OverlayTrigger
-                     placement="bottom"
-                     overlay={<Tooltip >Editar</Tooltip>}
-                  >
-                     <RiEdit2Line size={24} />
-                     </OverlayTrigger>
-                  </Button>
+                  <span>
+                    <Button
+                       variant="link"
+                    >
+                        <OverlayTrigger
+                       placement="bottom"
+                       overlay={<Tooltip >Editar</Tooltip>}
+                    >
+                       <RiEdit2Line size={24} />
+                       </OverlayTrigger>
+                    </Button>
+                  </span>
                </Link>
 
                <Button

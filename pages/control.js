@@ -392,11 +392,10 @@ const Control = () => {
     };
 
     return (
-
         <Layout
             titulo="Nutricion"
         >
-
+          <>
             <Botonera>
                 <h6 style={{ textAlign: 'center', fontSize: 'larger' }}>Control de alimentación: {animales.length} animales - Promedio actual: {promRacMod} Kgs.- Promedio Sugerido: {promSug} Kgs.- Promedio Dias Lact.: {promLac} Dias.</h6>
             </Botonera >
@@ -510,8 +509,8 @@ const Control = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
-        </Layout >
-
+          </>
+        </Layout>
     )
 }
 

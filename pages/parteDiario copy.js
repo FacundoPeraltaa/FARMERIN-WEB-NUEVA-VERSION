@@ -216,6 +216,7 @@ const ParteDiario = () => {
     <Layout
       titulo="Parte Diario"
     >
+      <>
       <Botonera>
         <Form
           onSubmit={handleSubmit}
@@ -429,6 +430,7 @@ const ParteDiario = () => {
           <SelectTambo />
 
       }
+      </>
     </Layout >
 
   )

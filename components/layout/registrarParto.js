@@ -14,11 +14,11 @@ const procesarParto = async (evento, tamboSel, firebase, usuario) => {
   console.log("📥 Evento recibido:", evento);
 
   const rpMadre = limpiarTexto(getValor(evento, "RP")).replace(/\s/g, "");
-  const fechaEvento = getValor(evento, "Fecha)") || new Date().toISOString().split("T")[0];
+  const fechaEvento = getValor(evento, "FECHA DE EVENTO (xx/xx/xxxx)") || new Date().toISOString().split("T")[0];
   const tipoParto = getValor(evento, "TIPO DE PARTO");
   const observ = getValor(evento, "OBSERV");
-  const sexoCria = getValor(evento, "Sexo Cria");
-  const rpCria = limpiarTexto(getValor(evento, "RP Cria"));
+  const sexoCria = getValor(evento, "SEXO CRIA");
+  const rpCria = limpiarTexto(getValor(evento, "RP CRIA"));
   const rpCria2 = limpiarTexto(getValor(evento, "INSCRIBIR CRIA**"));
 
   const crias = [];
@@ -41,6 +41,7 @@ const procesarParto = async (evento, tamboSel, firebase, usuario) => {
 
     // ✅ Actualizar madre
     await madreRef.update({
+      estpro: "En Ordeñe",
       estrep: "vacia",
       fparto: fechaEvento,
       nservicios: 0,

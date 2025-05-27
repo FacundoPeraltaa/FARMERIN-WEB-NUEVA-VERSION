@@ -11,18 +11,13 @@ import usePorcentaje from '../hook/usePorcentaje';
 import { Provider } from "react-redux";
 import  store  from '../redux/store';
 
-
 function MyApp(props) {
-
   const usuario=useAutenticacion();
   const { Component, pageProps }=props;
   const {tamboSel,guardarTamboSel,tambos,guardarTambos}=useTambo();
   const {porc, setPorc}=usePorcentaje();
   const {archivoExcel,guardarArchivoExcel}=useExcel();
-  
-  
-  
-    
+
   return (
     <>
     <Head>
@@ -47,7 +42,6 @@ function MyApp(props) {
         guardarArchivoExcel,
         porc,
         setPorc
-
     }}
     >
      <Component {...pageProps} />

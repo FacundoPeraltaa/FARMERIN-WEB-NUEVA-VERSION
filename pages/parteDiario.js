@@ -79,50 +79,49 @@ const ParteDiario = () => {
 
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    //console.log('entra');
-    guardarProcesando(true);
+  e.preventDefault();
+  guardarProcesando(true);
+  guardarEventos([]); // limpiamos los eventos antes de la búsqueda
 
-    guardarEventos([]);
-    //if (procesando) console.log('true');  
+  let iniciob, finb;
+  let inicioAux;
+  let finAux = format(Date.now(), 'yyyy-MM-dd');
+  finAux = finAux + 'T21:59:00';
+  let ff = valores.ffin + 'T21:59:00';
 
-
-    let iniciob, finb;
-    let inicioAux;
-    let finAux = format(Date.now(), 'yyyy-MM-dd');
-    finAux = finAux + 'T21:59:00';
-    let ff = valores.ffin + 'T21:59:00';
-
-    if (tipoFecha == "ef") {
-      iniciob = firebase.fechaTimeStamp(valores.fini);
-      finb = firebase.fechaTimeStamp(ff);
-    }
-
-    if (tipoFecha == "ud") {
-      inicioAux = subDays(Date.now(), 1);
-      inicioAux = format(inicioAux, 'yyyy-MM-dd');
-      iniciob = firebase.fechaTimeStamp(inicioAux);
-      finb = firebase.fechaTimeStamp(finAux);
-    }
-
-    if (tipoFecha === "mv") {
-      const primerDiaMes = format(new Date(new Date().getFullYear(), new Date().getMonth(), 1), 'yyyy-MM-dd');
-      iniciob = firebase.fechaTimeStamp(primerDiaMes);
-      finb = firebase.fechaTimeStamp(ff); // ff ya tiene el valor final con hora
-    }
-    
-
-    animales.forEach(a => {
-
-      buscarEventos(a, iniciob, finb)
-
-    });
-
-    await timeout(3000); //for 1 sec delay
-    guardarProcesando(false);
-
-
+  if (tipoFecha === "ef") {
+    iniciob = firebase.fechaTimeStamp(valores.fini);
+    finb = firebase.fechaTimeStamp(ff);
   }
+
+  if (tipoFecha === "ud") {
+    inicioAux = subDays(Date.now(), 1);
+    inicioAux = format(inicioAux, 'yyyy-MM-dd');
+    iniciob = firebase.fechaTimeStamp(inicioAux);
+    finb = firebase.fechaTimeStamp(finAux);
+  }
+
+  if (tipoFecha === "mv") {
+    const primerDiaMes = format(new Date(new Date().getFullYear(), new Date().getMonth(), 1), 'yyyy-MM-dd');
+    iniciob = firebase.fechaTimeStamp(primerDiaMes);
+    finb = firebase.fechaTimeStamp(ff);
+  }
+
+  // Ejecutamos la búsqueda de eventos por animal
+  animales.forEach(a => {
+    buscarEventos(a, iniciob, finb);
+  });
+
+  // Esperamos a que se completen las búsquedas (espera artificial)
+await timeout(3000);
+
+// Eliminar duplicados antes de guardar
+guardarEventos(eventosPrevios => eliminarEventosDuplicados(eventosPrevios));
+
+guardarProcesando(false);
+
+};
+
 
   const handleChange = e => {
     e.preventDefault();
@@ -134,78 +133,76 @@ const ParteDiario = () => {
   }
 
 
-  function buscarEventos(an, iniciob, finb) {
-    try {
+function buscarEventos(an, iniciob, finb) {
+  try {
+    let query = firebase.db.collection('animal').doc(an.id).collection('eventos')
+      .where('fecha', '>=', iniciob)
+      .where('fecha', '<=', finb);
 
-      let query = firebase.db.collection('animal').doc(an.id).collection('eventos').where('fecha', '>=', iniciob).where('fecha', '<=', finb);
-      //agrega el filtro de los que están vistos visto.
-      if (visto != 'todos') {
-        if (visto == 'true') query = query.where('vistoUsuario', 'array-contains', usuario.uid);
-      }
-      //agrega filtro de tipo de evento
-      if (tipo != 'todos') {
-        query = query.where('tipo', '==', tipo);
-      }
-
-      function snapshotEventos(snapshot) {
-        const even = snapshot.docs.map(doc => {
-
-          if ((tipo == 'todos' && doc.data().tipo != 'Control Lechero') || tipo != 'todos') {
-            let fevento;
-            try {
-              fevento = format(firebase.timeStampToDate(doc.data().fecha), 'dd/MM/yyyy');
-            } catch (error) {
-              fevento = 'error';
-            }
-
-            let erp;
-            try {
-              erp = an.erp.toString();
-            } catch (error) {
-              erp = '';
-            }
-
-
-            const e = {
-              id: doc.id,
-              animal: an,
-              rp: an.rp,
-              erp: erp,
-              fevento: fevento,
-              ...doc.data()
-            }
-            //filtro eventos pendientes
-            if (visto == 'false') {
-              if (e.vistoUsuario) {
-
-                if (e.vistoUsuario.indexOf(usuario.uid) == -1) {
-                  guardarEventos(eventos => [...eventos, e]);
-                }
-
-              } else {
-                guardarEventos(eventos => [...eventos, e]);
-              }
-            } else {
-              guardarEventos(eventos => [...eventos, e]);
-            }
-          }
-        })
-
-
-      }
-
-      query.get().then(snapshotEventos);
-
-
-
-    } catch (error) {
-
-      setMensajeAlert(error.message);
-      setShowAlert(true);
-
+    // Filtro de visto
+    if (visto !== 'todos') {
+      if (visto === 'true') query = query.where('vistoUsuario', 'array-contains', usuario.uid);
     }
 
+    // Filtro de tipo de evento
+    if (tipo !== 'todos') {
+      query = query.where('tipo', '==', tipo);
+    }
+
+    function snapshotEventos(snapshot) {
+      const nuevosEventos = [];
+
+      snapshot.docs.forEach(doc => {
+        const data = doc.data();
+
+        if ((tipo === 'todos' && data.tipo !== 'Control Lechero') || tipo !== 'todos') {
+          let fevento;
+          try {
+            fevento = format(firebase.timeStampToDate(data.fecha), 'dd/MM/yyyy');
+          } catch (error) {
+            fevento = 'error';
+          }
+
+          let erp;
+          try {
+            erp = an.erp.toString();
+          } catch (error) {
+            erp = '';
+          }
+
+          const e = {
+            id: doc.id,
+            animal: an,
+            rp: an.rp,
+            erp: erp,
+            fevento: fevento,
+            ...data
+          };
+
+          const noVisto = visto === 'false' && (!e.vistoUsuario || e.vistoUsuario.indexOf(usuario.uid) === -1);
+          const todoVisto = visto !== 'false';
+
+          if (noVisto || todoVisto) {
+            nuevosEventos.push(e);
+          }
+        }
+      });
+
+      // Fusionar con eventos actuales y eliminar duplicados
+      guardarEventos(eventosPrevios => {
+        const todos = [...eventosPrevios, ...nuevosEventos];
+        return eliminarEventosDuplicados(todos);
+      });
+    }
+
+    query.get().then(snapshotEventos);
+
+  } catch (error) {
+    setMensajeAlert(error.message);
+    setShowAlert(true);
   }
+}
+
 
   const handleClickRP = e => {
     e.preventDefault();
@@ -245,6 +242,42 @@ const ParteDiario = () => {
     }
   }
 
+  /* ELIMINAR DUPLICADOS */
+function eliminarEventosDuplicados(eventos) {
+  const mapa = new Map();
+
+  eventos.forEach(evento => {
+    let fechaMillis;
+
+    if (evento.fecha?.toDate) {
+      fechaMillis = evento.fecha.toDate().setHours(0, 0, 0, 0);
+    } else if (evento.fecha instanceof Date) {
+      fechaMillis = evento.fecha.setHours(0, 0, 0, 0);
+    } else if (typeof evento.fecha === 'number') {
+      const d = new Date(evento.fecha);
+      fechaMillis = d.setHours(0, 0, 0, 0);
+    } else {
+      try {
+        const partes = evento.fevento.split('/');
+        const d = new Date(`${partes[2]}-${partes[1]}-${partes[0]}`);
+        fechaMillis = d.setHours(0, 0, 0, 0);
+      } catch {
+        fechaMillis = evento.fevento;
+      }
+    }
+
+    const clave = `${fechaMillis}-${evento.rp}-${evento.tipo}`;
+
+    if (!mapa.has(clave)) {
+      mapa.set(clave, evento);
+    }
+  });
+
+  return Array.from(mapa.values());
+}
+
+
+
 
   return (
 
@@ -276,7 +309,7 @@ const ParteDiario = () => {
                   <Button className={`produccion-btn ${valores.tipoFecha === 'ud' ? 'activo' : ''}`} variant="info" name="tipoFecha" value="ud" onClick={handleChange}>
                     1 DÍA
                   </Button>
-                  <span className="produccion-tooltip-text">Últimas dia</span>
+                  <span className="produccion-tooltip-text">Último dia</span>
                 </div>
                 <div className="produccion-tooltip">
                   <Button

@@ -60,10 +60,21 @@ export async function procesarEventosTambo(data, tamboSel, setErrores, setActual
         let fechaEventoTimeStamp = null;
 
         try {
-            let fecha = new Date(fechaEventoStr);
-            if (isNaN(fecha.getTime())) {
-                const [dia, mes, anio] = fechaEventoStr.split("/").map(num => parseInt(num, 10));
+            let fecha;
+            if (fechaEventoStr.includes("-")) {
+                // Formato ISO ("yyyy-mm-dd")
+                const [anio, mes, dia] = fechaEventoStr.split("-").map(Number);
                 fecha = new Date(anio, mes - 1, dia);
+            } else if (fechaEventoStr.includes("/")) {
+                // Formato "dd/mm/yyyy"
+                const [dia, mes, anio] = fechaEventoStr.split("/").map(Number);
+                fecha = new Date(anio, mes - 1, dia);
+            } else {
+                throw new Error(`Formato de fecha no reconocido: ${fechaEventoStr}`);
+            }
+
+            if (isNaN(fecha.getTime())) {
+                throw new Error("Fecha inválida");
             }
 
             fechaEventoCadena = fecha.toISOString().split("T")[0];
@@ -72,6 +83,7 @@ export async function procesarEventosTambo(data, tamboSel, setErrores, setActual
             setErrores(prev => [...prev, `Error en fecha de RP ${rp}: ${fechaEventoStr}, ${error}`]);
             continue;
         }
+
 
         try {
             const snapshot = await firebase.db.collection('animal')

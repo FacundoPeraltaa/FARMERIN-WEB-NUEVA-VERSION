@@ -1,0 +1,133 @@
+.navbar {
+  width: 100%;
+  background-color: #29682c;
+  border-bottom: 1px solid #e5e7eb;
+  color: #e5e7eb;
+  padding: 15px 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-shadow: 0 2px 4px rgba(255, 252, 252, 0.04);
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+.navContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  img {
+    max-height: 40px;
+    height: auto;
+    cursor: pointer;
+  }
+
+  .logoIcon {
+    max-width: 35px;
+  }
+
+  .logoText {
+    max-width: 120px;
+  }
+}
+
+.menuToggle {
+  display: none;
+  background-color: transparent;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    display: block;
+    margin-top: 10px;
+  }
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+
+  span {
+    font-size: 15px;
+    font-weight: 500;
+    color: #1f2937;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    cursor: pointer;
+
+    &:hover {
+      color: #0ea5e9;
+    }
+  }
+
+  @media (max-width: 768px) {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    margin-top: 10px;
+  }
+}
+
+.navLinks.active {
+  display: flex;
+}
+
+.dropdown {
+  position: relative;
+
+  .dropbtn {
+    background: none;
+    border: none;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1f2937;
+    cursor: pointer;
+    padding: 5px 0;
+
+    &:hover {
+      color: #0ea5e9;
+    }
+  }
+
+  .dropdownContent {
+    display: none;
+    position: absolute;
+    top: 30px;
+    left: 0;
+    background-color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 8px;
+    min-width: 180px;
+    padding: 10px 0;
+    z-index: 1000;
+
+    span {
+      display: block;
+      padding: 8px 20px;
+      font-size: 14px;
+      color: #374151;
+      text-decoration: none;
+      transition: background 0.2s ease;
+
+      &:hover {
+        background-color: #f3f4f6;
+      }
+    }
+  }
+
+  &:hover .dropdownContent {
+    display: block;
+  }
+}

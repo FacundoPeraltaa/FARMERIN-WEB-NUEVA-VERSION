@@ -367,6 +367,7 @@ const GralAnimales = () => {
     <Layout
       titulo="Reportes"
     >
+      <>
       <Botonera>
      
           
@@ -596,6 +597,7 @@ const GralAnimales = () => {
           <SelectTambo />
 
       }
+      </>
     </Layout >
 
   )
