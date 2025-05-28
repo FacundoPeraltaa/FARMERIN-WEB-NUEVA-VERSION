@@ -10,10 +10,14 @@ import { Botonera, Contenedor, Mensaje } from '../components/ui/Elementos';
 import DetalleTambos from '../components/layout/detalleTambo';
 import styles from '../styles/Tambos.module.scss';
 
+import Lottie from 'lottie-react';
+import vacaAnimacion from '../public/animaciones/Animation - Vaca.json';
+
 const Home = () => {
   const [error, guardarError] = useState(false);
   const { firebase, usuario, tambos, guardarTambos } = useContext(FirebaseContext);
   const router = useRouter();
+  const [loading, setLoading] = useState(true); // loader inicial
 
   useEffect(() => {
     const redirectLogin = async () => {
@@ -28,7 +32,10 @@ const Home = () => {
           .collection('tambo')
           .where('usuarios', 'array-contains', usuario.uid)
           .orderBy('nombre', 'desc')
-          .onSnapshot(manejarSnapshot);
+          .onSnapshot(snapshot => {
+            manejarSnapshot(snapshot);
+            setLoading(false);
+          });
       };
       obtenerTambos();
     }
@@ -40,6 +47,21 @@ const Home = () => {
       ...doc.data(),
     }));
     guardarTambos(tambos);
+  }
+
+  // 🐄 Loader animado mientras se buscan los tambos
+  if (loading) {
+    return (
+      <Layout titulo="Cargando...">
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '70vh' }}>
+          <div className="text-center" style={{ maxWidth: 300 }}>
+            <Lottie animationData={vacaAnimacion} loop autoplay />
+            <p className={styles.textoLoader}>BUSCANDO TAMBOS ASOCIADOS...</p>
+
+          </div>
+        </div>
+      </Layout>
+    );
   }
 
   return (
@@ -69,19 +91,23 @@ const Home = () => {
 
           <div className={styles.divider}><span>- O -</span></div>
 
-        <section className={styles.benefitsGrid}>
+          <section className={styles.benefitsGrid}>
             <div className={`${styles.benefitText} ${styles.reportes}`}>
               <h5>REPORTES</h5>
               <p>
-                En la sección Reportes vas a poder consultar información clave sobre el funcionamiento del tambo. Incluye datos productivos, partes diarios y estadísticas generales que te brindan una visión completa para analizar el rendimiento y tomar decisiones informadas.              </p>
+                La plataforma proporciona una solución a medida del cliente de rápida y sencilla implementación
+                que permite ir incorporando nuevas soluciones a otras necesidades existentes y futuras.
+              </p>
             </div>
 
             <img src="Alimento.jpg" className={styles.benefitImage} alt="Soluciones a medida" />
 
             <div className={`${styles.benefitText} ${styles.control}`}>
-              <h5>HERRAMIENTAS</h5>
+              <h5>CONTROL</h5>
               <p>
-                En la sección Herramientas vas a encontrar utilidades prácticas que te ayudan en la gestión diaria del tambo, como el monitoreo de ingresos de animales, el control de turnos y otras funciones clave para mantener la operación organizada.              </p>
+                Toda la información es concentrada y procesada localmente y luego remitida a la nube de manera
+                de poder acceder o modificar información remotamente.
+              </p>
             </div>
 
             <img src="TamboPasillo.jpg" className={styles.benefitImage} alt="Almacenamiento" />
@@ -89,14 +115,12 @@ const Home = () => {
             <div className={`${styles.benefitText} ${styles.nutricion}`}>
               <h5>NUTRICION</h5>
               <p>
-                La sección Nutrición te permite llevar un seguimiento integral de la alimentación del rodeo. Desde acá podés configurar parámetros, registrar controles y acceder a indicadores que ayudan a optimizar la eficiencia alimenticia y la producción lechera.
-
+                Su sistema de alertas tempranas permite actuar rápidamente y en muchos casos remotamente.
               </p>
             </div>
 
             <img src="VacaBlack.jpg" className={styles.benefitImage} alt="Alertas" />
           </section>
-
         </>
       ) : (
         <>
@@ -113,13 +137,14 @@ const Home = () => {
             </Link>
           </Mensaje>
 
-
           <div className={styles.divider}><span>- O -</span></div>
+
           <section className={styles.benefitsGrid}>
             <div className={`${styles.benefitText} ${styles.reportes}`}>
               <h5>REPORTES</h5>
               <p>
-                En la sección Reportes vas a poder consultar información clave sobre el funcionamiento del tambo. Incluye datos productivos, partes diarios y estadísticas generales que te brindan una visión completa para analizar el rendimiento y tomar decisiones informadas.              </p>
+                En la sección Reportes vas a poder consultar información clave sobre el funcionamiento del tambo. Incluye datos productivos, partes diarios y estadísticas generales que te brindan una visión completa para analizar el rendimiento y tomar decisiones informadas.
+              </p>
             </div>
 
             <img src="Alimento.jpg" className={styles.benefitImage} alt="Soluciones a medida" />
@@ -127,7 +152,8 @@ const Home = () => {
             <div className={`${styles.benefitText} ${styles.control}`}>
               <h5>HERRAMIENTAS</h5>
               <p>
-                En la sección Herramientas vas a encontrar utilidades prácticas que te ayudan en la gestión diaria del tambo, como el monitoreo de ingresos de animales, el control de turnos y otras funciones clave para mantener la operación organizada.              </p>
+                En la sección Herramientas vas a encontrar utilidades prácticas que te ayudan en la gestión diaria del tambo, como el monitoreo de ingresos de animales, el control de turnos y otras funciones clave para mantener la operación organizada.
+              </p>
             </div>
 
             <img src="TamboPasillo.jpg" className={styles.benefitImage} alt="Almacenamiento" />
@@ -136,13 +162,11 @@ const Home = () => {
               <h5>NUTRICION</h5>
               <p>
                 La sección Nutrición te permite llevar un seguimiento integral de la alimentación del rodeo. Desde acá podés configurar parámetros, registrar controles y acceder a indicadores que ayudan a optimizar la eficiencia alimenticia y la producción lechera.
-
               </p>
             </div>
 
             <img src="VacaBlack.jpg" className={styles.benefitImage} alt="Alertas" />
           </section>
-
         </>
       )}
     </Layout>

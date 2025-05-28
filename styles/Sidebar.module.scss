@@ -1,6 +1,6 @@
 .navbar {
   width: 100%;
-  background-color: #29682c;
+  background-color: #4cb151;
   border-bottom: 1px solid #e5e7eb;
   color: #e5e7eb;
   padding: 15px 30px;
@@ -16,6 +16,7 @@
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
+  color: #e5e7eb;
 }
 
 .logo {
@@ -61,7 +62,7 @@
   span {
     font-size: 15px;
     font-weight: 500;
-    color: #1f2937;
+    color: #fbfbfb; // TEXTO TAMBOS - ANIMALES - AYUDA - MI FARMERIN 
     text-decoration: none;
     transition: color 0.2s ease;
     cursor: pointer;
@@ -92,7 +93,7 @@
     border: none;
     font-size: 15px;
     font-weight: 500;
-    color: #1f2937;
+    color: #fbfbfb;  // TEXTO DE NUTRICION - REPORTES - HERRAMIENTAS - CONFIGURACION
     cursor: pointer;
     padding: 5px 0;
 
@@ -117,7 +118,7 @@
       display: block;
       padding: 8px 20px;
       font-size: 14px;
-      color: #374151;
+      color: #374151; // TEXTO DE SECCIONES
       text-decoration: none;
       transition: background 0.2s ease;
 

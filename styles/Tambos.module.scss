@@ -27,19 +27,35 @@
 }
 
 .nombre {
-  font-weight: 600;
-  font-size: 1rem;
-  line-height: 1.2;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #1f2937; // gris oscuro casi negro (muy legible)
+  letter-spacing: 0.3px;
+  text-transform: capitalize;
+  margin-bottom: 0.2rem;
+  line-height: 1.4;
 }
 
+
 .ubicacion {
-  font-size: 0.875rem;
-  color: #6c757d;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #6b7280; // gris elegante
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  letter-spacing: 0.2px;
+}
+.ubicacion::before {
+  content: '📍';
+  display: inline-block;
+  margin-right: 0.25rem;
 }
 
 .botonCentro {
   display: flex;
   justify-content: center;
+  color: #297fba;
 }
 
 .acciones {
@@ -73,6 +89,103 @@
   color: #666;
 }
 
+/// BOTONES INFO, EDITAR, BORRAR Y TOOLTIPS DE LOS MIMOS 
+.acciones {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btnIconoInfo,
+.btnIconoEditar,
+.btnIconoBorrar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  border: none;
+  background-color: transparent;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  font-size: 1.1rem;
+
+  &:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.15rem rgba(0, 123, 255, 0.25);
+  }
+}
+
+/* Info: color primario */
+.btnIconoInfo {
+  color: #297fba;
+
+  &:hover {
+    background-color: #17537b;
+  }
+}
+
+/* Editar: color de advertencia suave */
+.btnIconoEditar {
+  color: #4cb151;
+
+  &:hover {
+    background-color: #337a37;
+  }
+}
+
+/* Borrar: color rojo */
+.btnIconoBorrar {
+  color: #b52b39;
+
+  &:hover {
+    background-color:#750e18;
+  }
+}
+
+.tooltipWrapper {
+  position: relative;
+  display: inline-block;
+
+  &:hover .tooltipText {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.tooltipText {
+  visibility: hidden;
+  background-color: #212529;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 4px 8px;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+  font-size: 0.8rem;
+  font-weight: 500;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #212529 transparent transparent transparent;
+  }
+}
+
 
 
 /* ENCABEZADO TEXTO Y BOTON */
@@ -101,27 +214,63 @@
   font-size: 0.95rem;
   color: #666;
 }
-
+/// BOTON CREAR CON USUARIO AUTENTICADO
 .btnNuevoTambo {
-  background: linear-gradient(135deg, #1abc9c, #16a085);
+  background-color: #4cb151; // azul profesional 
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.45rem 1.1rem;
   border: none;
-  padding: 0.65rem 1.25rem;
-  font-weight: 500;
-  font-size: 1rem;
-  border-radius: 10px;
-  color: white;
+  border-radius: 8px;
   transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 6px #358e3a;
 
   &:hover {
-    background: linear-gradient(135deg, #16a085, #148f77);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #358e3a;
+    box-shadow: 0 3px 8px #2a812f;
+    transform: translateY(-1px);
   }
 
-  svg {
-    vertical-align: middle;
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px #1f8c25;
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem #337a37;
   }
 }
+//// BOTON INGRESAR AL TAMBO 
+.botonIngresar {
+  background-color: #297fba; // azul profesional 
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.45rem 1.1rem;
+  border: none;
+  border-radius: 8px;
+  transition: all 0.2s ease-in-out;
+  box-shadow: 0 2px 6px rgba(13, 110, 253, 0.3);
+
+  &:hover {
+    background-color: #0b5ed7;
+    box-shadow: 0 3px 8px rgba(13, 110, 253, 0.4);
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: 0 2px 4px rgba(13, 110, 253, 0.2);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.4);
+  }
+}
+
 
 /// BOTON DE CREAR PARA USUARIO SIN TAMBO Y TITULO 
 .tituloEmpty {
@@ -157,7 +306,7 @@
 
 
 .btnCrear {
-  background-color: #297fba; // Azul profesional
+  background-color: #4cb151; // Azul profesional
   color: #fff;
   font-weight: 600;
   font-size: 1.1rem;
@@ -295,5 +444,34 @@
   p {
     color: #f4f6f8;
 
+  }
+}
+
+//// TEXTO DEL LOADER 
+.textoLoader {
+  margin-top: 1rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: #444;
+  text-align: center;
+  letter-spacing: 0.3px;
+  animation: fadeIn 0.8s ease-in-out both;
+
+  &::before {
+    content: '🔍 ';
+    font-size: 1.2rem;
+    vertical-align: middle;
+  }
+}
+
+/* Animación suave de entrada */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

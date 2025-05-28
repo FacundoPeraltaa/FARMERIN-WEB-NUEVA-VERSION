@@ -119,25 +119,52 @@ const DetalleTambos = ({ tambo }) => {
       guardarAnimales(animales);
    }
 
+   const CustomTooltip = (text, id) => (
+      <Tooltip id={id} className="tooltip">
+         {text}
+      </Tooltip>
+   );
+
    return (
       <>
          <Card className={styles.card}>
             <div className={styles.cardContent}>
                <div className={styles.nombreUbicacion}>
-                  <div className={styles.nombre}>🐄 {nombre}</div>
-                  <div className={styles.ubicacion}>📍 {ubicacion}</div>
+                  <div className={styles.nombre}> {nombre}</div>
+                  <div className={styles.ubicacion}> {ubicacion}</div>
                </div>
 
                <div className={styles.botonCentro}>
-                  <Button size="sm" variant="primary" onClick={selecTambo}>Ingresar al tambo</Button>
+                  <Button className={styles.botonIngresar} onClick={selecTambo}>
+                     Ingresar al tambo
+                  </Button>
                </div>
 
                <div className={styles.acciones}>
-                  <Button variant="link" onClick={handleShowData}><RiAddBoxLine size={20} /></Button>
-                  <Link href="/tambos/[id]" as={`/tambos/${id}`}>
-                     <Button variant="link"><RiEdit2Line size={20} /></Button>
-                  </Link>
-                  <Button variant="link" onClick={handleShow}><RiDeleteBin2Line size={20} /></Button>
+
+                  <div className={styles.tooltipWrapper}>
+                     <Button className={styles.btnIconoInfo} onClick={handleShowData}>
+                        <RiAddBoxLine size={20} />
+                     </Button>
+                     <span className={styles.tooltipText}>Ver información</span>
+                  </div>
+
+                  <div className={styles.tooltipWrapper}>
+                     <Link href={`/tambos/${id}`} legacyBehavior passHref>
+                        <Button className={styles.btnIconoEditar}>
+                           <RiEdit2Line size={20} />
+                        </Button>
+                     </Link>
+                     <span className={styles.tooltipText}>Editar tambo</span>
+                  </div>
+
+                  <div className={styles.tooltipWrapper}>
+                     <Button className={styles.btnIconoBorrar} onClick={handleShow}>
+                        <RiDeleteBin2Line size={20} />
+                     </Button>
+                     <span className={styles.tooltipText}>Eliminar tambo</span>
+                  </div>
+
                </div>
             </div>
          </Card>
@@ -182,8 +209,14 @@ const DetalleTambos = ({ tambo }) => {
                </Row>
 
                <div className="mt-3">
-                  {estadoApi === 'buscando' && <ContenedorSpinner><Spinner animation="border" variant="info" /></ContenedorSpinner>}
-                  {estadoApi === 'error' && <Alert variant="danger">No se puede acceder al tambo</Alert>}
+                  {estadoApi === 'buscando' && (
+                     <ContenedorSpinner>
+                        <Spinner animation="border" variant="info" />
+                     </ContenedorSpinner>
+                  )}
+                  {estadoApi === 'error' && (
+                     <Alert variant="danger">No se puede acceder al tambo</Alert>
+                  )}
                   {estadoApi === 'resultados' && horarios?.length === 0 && (
                      <Alert variant="success">No hay resultados para la fecha seleccionada</Alert>
                   )}
@@ -211,6 +244,7 @@ const DetalleTambos = ({ tambo }) => {
          </Modal>
       </>
    );
+
 };
 
 export default DetalleTambos;
