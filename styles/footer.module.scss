@@ -1,18 +1,39 @@
 .footer {
-  background-color: #f8f9fa; // Gris claro
-  padding: 1rem 0;
-  text-align: center;
-  font-size: 0.9rem;
-  color: #555;
-  border-top: 1px solid #e1e1e1;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  height: 48px;
+  background-color: #f8f9fa;
+  border-top: 1px solid #dee2e6;
+  box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.85rem;
+  color: #6c757d;
+  font-weight: 500;
 }
 
 .link {
+  color: #0d6efd;
   text-decoration: none;
-  color: #007bff;
-  transition: color 0.2s ease-in-out;
+  transition: color 0.2s ease;
 
   &:hover {
-    color: #0056b3;
+    color: #084298;
+    text-decoration: underline;
   }
+}
+
+.separator {
+  color: #adb5bd;
+  font-size: 0.85rem;
 }
