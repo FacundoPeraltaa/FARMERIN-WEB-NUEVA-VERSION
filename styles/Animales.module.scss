@@ -1,0 +1,386 @@
+//// TITULO. BOTONES BUSCAR, ALTA ANIMAL
+.container {
+  background-color: #f9fafb;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 30px;
+  width: 100%;
+}
+
+.title {
+  font-size: 1.8rem;
+  color: #1f2937;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-left: 15px;
+
+
+  strong {
+    color: #000f2f; // Azul elegante para resaltar cantidad
+  }
+
+  svg {
+    color: #4caf50; // Verde para ícono de vaca
+    font-size: 1.5em;
+  }
+}
+.nombreTambo {
+  color: #000; // Texto negro
+  text-decoration: underline;
+  text-decoration-color: #4caf50; // Verde moderno (Tailwind Emerald-500)
+  font-weight: 600;
+}
+
+.actionsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  width: 97%;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 0px;
+  margin-left: 15px;
+}
+
+.inputRp {
+  flex: 1;
+  padding: 10px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #111827;
+  transition: border-color 0.2s ease;
+
+  &::placeholder {
+    color: #9ca3af;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: #297eb9;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  }
+}
+
+.customBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+
+  svg {
+    margin-top: -2px;
+  }
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.searchBtn {
+  background-color: #297eb9;
+  color: #fff;
+
+  &:hover {
+    background-color: #1d4ed8;
+  }
+}
+
+.addBtn {
+  background-color: #4caf50;
+  color: #fff;
+
+  &:hover {
+    background-color: rgb(3, 104, 72);
+  }
+}
+
+// Estilo principal para el contenedor
+.animal-list-header {
+  background: linear-gradient(135deg, #e6f7fa, #ffffff);
+  padding: 20px 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-left: 6px solid #1b829b;
+  transition: all 0.3s ease;
+}
+
+.animal-list-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1b829b;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .icon {
+    font-size: 1.8rem;
+  }
+
+  .badge {
+    background-color: #1b829b;
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 999px;
+    margin-left: auto;
+    transition: background-color 0.3s ease;
+  }
+}
+.custom-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  width: 100%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  text-align: center;
+
+  &.search-btn {
+    background-color: #1b829b;
+    color: #fff;
+
+    &:hover {
+      background-color: #166e85;
+    }
+  }
+
+  &.add-btn {
+    background-color: #5cb85c;
+    color: #fff;
+
+    &:hover {
+      background-color: #449d44;
+    }
+  }
+
+  .btn-icon {
+    margin-right: 6px;
+  }
+}
+
+
+/// LISTA DE ANIMALES
+.listaAnimales {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+// CONTENEDOR DE ANIMALES
+.animalCard {
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 8px 12px; // ⬅️ menos padding para reducir altura
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%; // ⬅️ ocupa todo el ancho
+}
+
+
+.columna,
+.celda {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.875rem;
+  padding: 0.5rem;
+  color: #212529;
+  gap: 2px;
+}
+
+.label {
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-weight: 500;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+  justify-content: center;
+}
+
+.valor {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #212529;
+  display: flex;
+  text-align: center;
+}
+
+.acciones {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.tooltipWrapper {
+  position: relative;
+  display: inline-block;
+
+  &:hover .tooltipText {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+/// TOOLTIP CON LOS BOTONES DE ACCIONES 
+.tooltipText {
+  visibility: hidden;
+  background-color: #212529;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 10px;
+  position: absolute;
+  z-index: 10;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+  font-size: 0.75rem;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #212529 transparent transparent transparent;
+  }
+}
+
+.btnIconoInfo {
+  background-color: #297eb9;
+  color: white;
+  border: none;
+  padding: 0.4rem;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: rgb(4, 65, 156);
+  }
+}
+
+.btnIconoEditar {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 0.4rem;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: rgb(16, 92, 57);
+  }
+}
+
+.btnIconoBorrar {
+  background-color: #b52b39;
+  color: white;
+  border: none;
+  padding: 0.4rem;
+  border-radius: 6px;
+
+  &:hover {
+    background-color: rgb(131, 22, 33);
+  }
+}
+.activa {
+  color: #000; // Podés usar otro color como #007bff si querés destacar más
+}
+
+.listaAnimales {
+  max-height: 70vh; // si querés scroll interno opcional
+  overflow-y: auto;
+}
+
+/// ENCABEZADO 
+.encabezadoLista {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: #ffffff;
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 3fr 1fr;
+  padding: 0.75rem 1rem;
+  border-bottom: 2px solid #ccc;
+}
+
+.colEncabezado,
+.colEncabezadoAcciones {
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+}
+.colEncabezadoRp{
+  font-weight: bold;
+  display: flex;
+  padding-left: 10px;
+}
+
+.colEncabezadoErp{
+  font-weight: bold;
+  display: flex;
+  padding-left: 100px;
+}
+
+.iconoOrden {
+  font-size: 0.8rem;
+  color: #868e96;
+}
+
+// Mensaje sin resultados
+.mensajeSinResultados {
+  padding: 2rem;
+  text-align: center;
+}
+
+.mensajeCaja {
+  background-color: #f8f9fa;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.tituloSinResultados {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.textoSecundario {
+  color: #555;
+}

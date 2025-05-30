@@ -11,7 +11,7 @@ const Footer = () => {
           rel="noopener noreferrer"
           className={styles.link}
         >
-          Farmerin División S.A. © {new Date().getFullYear()}
+          Farmerin División S.A. © 2020
         </a>
         <span className={styles.separator}>|</span>
         <a

@@ -95,18 +95,18 @@ const Home = () => {
             <div className={`${styles.benefitText} ${styles.reportes}`}>
               <h5>REPORTES</h5>
               <p>
-                La plataforma proporciona una solución a medida del cliente de rápida y sencilla implementación
-                que permite ir incorporando nuevas soluciones a otras necesidades existentes y futuras.
+                En la sección Reportes vas a poder consultar información clave sobre el funcionamiento del tambo. Incluye datos productivos, partes diarios y estadísticas generales que te brindan una visión completa para analizar el rendimiento y tomar decisiones informadas.
+
               </p>
             </div>
 
             <img src="Alimento.jpg" className={styles.benefitImage} alt="Soluciones a medida" />
 
             <div className={`${styles.benefitText} ${styles.control}`}>
-              <h5>CONTROL</h5>
+              <h5>HERRAMIENTAS</h5>
               <p>
-                Toda la información es concentrada y procesada localmente y luego remitida a la nube de manera
-                de poder acceder o modificar información remotamente.
+                En la sección Herramientas vas a encontrar utilidades prácticas que te ayudan en la gestión diaria del tambo, como el monitoreo de ingresos de animales, el control de turnos y otras funciones clave para mantener la operación organizada.
+
               </p>
             </div>
 
@@ -115,7 +115,7 @@ const Home = () => {
             <div className={`${styles.benefitText} ${styles.nutricion}`}>
               <h5>NUTRICION</h5>
               <p>
-                Su sistema de alertas tempranas permite actuar rápidamente y en muchos casos remotamente.
+                La sección Nutrición te permite llevar un seguimiento integral de la alimentación del rodeo. Desde acá podés configurar parámetros, registrar controles y acceder a indicadores que ayudan a optimizar la eficiencia alimenticia y la producción lechera.
               </p>
             </div>
 

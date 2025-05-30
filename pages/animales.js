@@ -1,105 +1,77 @@
 import React, { useState, useEffect, useContext } from 'react'
 import Link from 'next/link';
 import { FirebaseContext } from '../firebase2';
-import { Botonera, Mensaje, ContenedorSpinner, Contenedor } from '../components/ui/Elementos';
+import { Botonera, Mensaje, Contenedor, ContenedorSpinner } from '../components/ui/Elementos';
 import Layout from '../components/layout/layout';
 import DetalleAnimal from '../components/layout/detalleAnimal';
 import SelectTambo from '../components/layout/selectTambo';
 import StickyTable from "react-sticky-table-thead"
-import { useDispatch } from 'react-redux'; // Import useDispatch
-import { addNotification } from '../redux/notificacionSlice'; // Ensure this import is correct
-
-import { Button, Form, Row, Col, Alert, Spinner, Table, Modal } from 'react-bootstrap';
-import { RiAddBoxLine, RiSearchLine } from 'react-icons/ri';
-import { FaSort } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { addNotification } from '../redux/notificacionSlice';
+import { Button, Form, Row, Col, Alert, Table, Modal } from 'react-bootstrap';
+import { RiAddBoxLine, RiSearchLine, RiFileList2Line } from 'react-icons/ri';
+import { FaSort, FaSortUp, FaSortDown } from 'react-icons/fa';
+import { GiCow } from 'react-icons/gi';
+import Lottie from 'lottie-react';
+import vacaAnimacion from '../public/animaciones/Animation - Vaca.json';
+import styles from '../styles/Animales.module.scss';
 
 const Animales = () => {
-
-  const dispatch = useDispatch(); // Initialize dispatch
+  const dispatch = useDispatch();
   const [elim, guardarElim] = useState(false);
   const [error, guardarError] = useState();
   const [animales, guardarAnimales] = useState([]);
   const [animalesBase, guardarAnimalesBase] = useState([]);
-  const [valores, guardarValores] = useState({
-    rp: ''
-  });
-
+  const [valores, guardarValores] = useState({ rp: '' });
   const [procesando, guardarProcesando] = useState(false);
   const { rp } = valores;
-  const { firebase, tamboSel,  porc, setPorc } = useContext(FirebaseContext);
+  const { firebase, tamboSel } = useContext(FirebaseContext);
   const [orderRp, guardarOrderRp] = useState('asc');
   const [orderEr, guardarOrderEr] = useState('asc');
   const [orderEp, guardarOrderEp] = useState('asc');
-  const [valor, setValor] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState('');
-
-
-  
-    
-
-  
+  const [esSticky, setEsSticky] = useState(false);
 
   useEffect(() => {
-
     guardarElim(false);
-    //obtiene los animales del tambo
     if (tamboSel) {
+      guardarProcesando(true);
       buscarAnimales();
       aplicarFiltro();
       mostrarMensajeModal();
+      setTimeout(() => guardarProcesando(false), 800);
     }
-
   }, [tamboSel, elim])
-  /*
-  $(document).ready(function () {
-      $('#animalesTable').DataTable();
-      $('.dataTables_length').addClass('bs-select');
-  });*/
 
   function buscarAnimales() {
-
-    guardarProcesando(true);
     if (tamboSel) {
       try {
-        firebase.db.collection('animal').where('idtambo', '==', tamboSel.id).where('fbaja', '==', '').orderBy('rp').get().then(snapshotAnimal);
+        firebase.db.collection('animal')
+          .where('idtambo', '==', tamboSel.id)
+          .where('fbaja', '==', '')
+          .orderBy('rp')
+          .get()
+          .then(snapshotAnimal);
       } catch (error) {
         guardarError(error);
         console.log(error);
       }
     }
-    guardarProcesando(false);
+  }
 
-  };
   function snapshotAnimal(snapshot) {
-    const animales = snapshot.docs.map(doc => {
-      return {
-        id: doc.id,
-        ...doc.data()
-      }
-    })
-
+    const animales = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }))
     guardarAnimalesBase(animales);
   }
 
   const aplicarFiltro = () => {
-
-    if (rp != "") {
+    if (rp !== "") {
       const cond = rp.toLowerCase();
-      const filtro = animalesBase.filter(animal => {
-        return (
-          (animal.rp) && (animal.erp) ?
-            animal.rp.toString().toLowerCase().includes(cond) ||
-            animal.erp.toString().toLowerCase().includes(cond)
-            :
-            (animal.rp) ?
-              animal.rp.toString().toLowerCase().includes(cond)
-              :
-              (animal.erp) &&
-              animal.erp.toString().toLowerCase().includes(cond)
-
-        )
-      });
+      const filtro = animalesBase.filter(animal =>
+      (animal.rp?.toString().toLowerCase().includes(cond) ||
+        animal.erp?.toString().toLowerCase().includes(cond))
+      );
       guardarAnimales(filtro);
     } else {
       guardarAnimales(animalesBase);
@@ -108,62 +80,39 @@ const Animales = () => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    aplicarFiltro();
+    guardarProcesando(true);
+    setTimeout(() => {
+      aplicarFiltro();
+      guardarProcesando(false);
+    }, 600);
   }
 
   const handleChange = e => {
-    guardarValores({
-      ...valores,
-      [e.target.name]: e.target.value
-    })
+    guardarValores({ ...valores, [e.target.name]: e.target.value })
   }
 
-  const handleClickRP = e => {
-    e.preventDefault();
-    if (orderRp == 'asc') {
-      const a = animalesBase.sort((a, b) => (a.rp < b.rp) ? 1 : -1);
-      guardarOrderRp('desc');
-      guardarAnimalesBase(a);
-    } else {
-      const b = animalesBase.sort((a, b) => (a.rp > b.rp) ? 1 : -1);
-      guardarOrderRp('asc');
-      guardarAnimalesBase(b);
-    }
-
+  const handleClickRP = () => {
+    const orden = orderRp === 'asc' ? 'desc' : 'asc';
+    const sorted = [...animalesBase].sort((a, b) => orden === 'asc' ? a.rp - b.rp : b.rp - a.rp);
+    guardarOrderRp(orden);
+    guardarAnimalesBase(sorted);
     aplicarFiltro();
-
   }
 
-  const handleClickER = e => {
-    e.preventDefault();
-    if (orderEr == 'asc') {
-      const a = animalesBase.sort((a, b) => (a.estrep < b.estrep) ? 1 : -1);
-      guardarOrderEr('desc');
-      guardarAnimalesBase(a);
-    } else {
-      const b = animalesBase.sort((a, b) => (a.estrep > b.estrep) ? 1 : -1);
-      guardarOrderEr('asc');
-      guardarAnimalesBase(b);
-    }
-
+  const handleClickER = () => {
+    const orden = orderEr === 'asc' ? 'desc' : 'asc';
+    const sorted = [...animalesBase].sort((a, b) => orden === 'asc' ? a.estrep - b.estrep : b.estrep - a.estrep);
+    guardarOrderEr(orden);
+    guardarAnimalesBase(sorted);
     aplicarFiltro();
-
   }
 
-  const handleClickEP = e => {
-    e.preventDefault();
-    if (orderEp == 'asc') {
-      const a = animalesBase.sort((a, b) => (a.estpro < b.estpro) ? 1 : -1);
-      guardarOrderEp('desc');
-      guardarAnimalesBase(a);
-    } else {
-      const b = animalesBase.sort((a, b) => (a.estpro > b.estpro) ? 1 : -1);
-      guardarOrderEp('asc');
-      guardarAnimalesBase(b);
-    }
-
+  const handleClickEP = () => {
+    const orden = orderEp === 'asc' ? 'desc' : 'asc';
+    const sorted = [...animalesBase].sort((a, b) => orden === 'asc' ? a.estpro - b.estpro : b.estpro - a.estpro);
+    guardarOrderEp(orden);
+    guardarAnimalesBase(sorted);
     aplicarFiltro();
-
   }
 
   const mostrarMensajeModal = async () => {
@@ -172,145 +121,155 @@ const Animales = () => {
       const porcentaje = tamboDoc.data().porcentaje;
 
       let mensaje;
-      if (porcentaje > 0) {
-        mensaje = `AUMENTO DE LA RACION APLICADO.`;
-      } else if (porcentaje < 0) {
-        mensaje = `REDUCCION DE LA RACION APLICADO.`;
-      }
+      if (porcentaje > 0) mensaje = `AUMENTO DE LA RACION APLICADO.`;
+      else if (porcentaje < 0) mensaje = `REDUCCION DE LA RACION APLICADO.`;
 
       if (mensaje) {
         setModalMessage(mensaje);
-        dispatch(addNotification({
-          id: Date.now(),
-          mensaje,
-          fecha: firebase.nowTimeStamp(),
-        }));
+        dispatch(addNotification({ id: Date.now(), mensaje, fecha: firebase.nowTimeStamp() }));
         setShowModal(true);
       }
     } catch (error) {
       console.error("Error fetching porcentaje:", error);
     }
-  };
+  }
+
+  useEffect(() => {
+    const manejarScroll = () => {
+      const scrollTop = window.scrollY;
+      setEsSticky(scrollTop > 140); // activa cuando baja un poco
+    };
+
+    window.addEventListener("scroll", manejarScroll);
+    return () => window.removeEventListener("scroll", manejarScroll);
+  }, []);
+
+  if (procesando) {
+    return (
+      <Layout titulo="Cargando...">
+        <div className="d-flex justify-content-center align-items-center" style={{ height: '70vh' }}>
+          <div className="text-center" style={{ maxWidth: 300 }}>
+            <Lottie animationData={vacaAnimacion} loop autoplay />
+            <p className="textoLoader">CARGANDO ANIMALES...</p>
+          </div>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
-
-    <Layout
-      titulo="Animales"
-    >
+    <Layout titulo="Animales">
       <>
-        <Botonera>
-          <Row>
-            <Col lg={true}>
-              <h6>Listado de animales: {animales.length}</h6>
-            </Col>
-          </Row>
-          <Row>&nbsp;</Row>
-          <Row>
-            <Col lg={true}>
-              <Form
-                onSubmit={handleSubmit}
-              >
-                <Row>
-                  <Col lg={true}>
-                    <Form.Group>
-                      <Form.Control
-                        type="string"
-                        id="rp"
-                        placeholder="RP / eRP"
-                        name="rp"
-                        value={rp}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                  </Col>
-                  <Col lg={true}>
-                    <Form.Group>
-                      <Button
-                        variant="info" block
-                        type="submit"
-                      >
-                        <RiSearchLine size={22} />
-                  &nbsp;
-                  Buscar
-                  </Button>
-                    </Form.Group>
-                  </Col>
-                  <Col md="auto">
-                    <Link
-                      href="/animales/[id]" as={'/animales/0'}
-                    >
-                      <span>
-                        <Button
-                          variant="success" block
-                        >
-                          <RiAddBoxLine size={24} />
-                          &nbsp;
-                          Alta Animal
-                        </Button>
-                      </span>
-                    </Link>
-                  </Col>
-                </Row>
-              </Form>
-            </Col>
-          </Row>
-        </Botonera >
+        <div className={styles.container}>
+          <h2 className={styles.title}>
+            <GiCow /> Listado de animales de <strong className={styles.nombreTambo}>{tamboSel?.nombre}</strong>:<strong>{animales.length}</strong>
+          </h2>
 
-        {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
-          //si hay tambo
-          (tamboSel) ?
-            animales.length == 0 ?
-              <Mensaje>
-                <Alert variant="warning" >No se encontraron resultados</Alert>
+          <div className={styles.actionsContainer}>
+            <input
+              type="string"
+              id="rp"
+              placeholder="RP / eRP"
+              name="rp"
+              value={rp}
+              onChange={handleChange}
+              className={styles.inputRp}
+            />
+
+            <button onClick={handleChange} variant="info" block
+              type="submit" className={`${styles.customBtn} ${styles.searchBtn}`}>
+              <RiSearchLine size={20} className={styles.btnIcon} />
+              Buscar
+            </button>
+
+            <button href="/animales/[id]" as="/animales/0" className={`${styles.customBtn} ${styles.addBtn}`}>
+              <RiAddBoxLine size={20} className={styles.btnIcon} />
+              Alta Animal
+            </button>
+          </div>
+
+          {tamboSel ? (
+            animales.length === 0 ? (
+              <Mensaje className={styles.mensajeSinResultados}>
+                <div className={styles.mensajeCaja}>
+                  <h2 className={styles.tituloSinResultados}>Sin resultados</h2>
+                  <p className={styles.textoSecundario}>
+                    Presiona <strong>Buscar</strong> para obtener los animales
+                  </p>
+                </div>
               </Mensaje>
-              :
+            ) : (
               <Contenedor>
-                <StickyTable height={370}>
-                  <Table responsive>
-                    <thead>
-                      <tr>
-                        <th onClick={handleClickRP}>RP  <FaSort size={15} /></th>
-                        <th onClick={handleClickEP}>Est. Prod. <FaSort size={15} /></th>
-                        <th onClick={handleClickER}>Est. Rep. <FaSort size={15} /></th>
-                        <th>eRP</th>
-                        <th>Accion</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {animales.map(a => (
-                        <DetalleAnimal
-                          key={a.id}
-                          animal={a}
-                          guardarElim={guardarElim}
-                        />
-                      )
-                      )}
-                    </tbody>
-                  </Table>
-                </StickyTable>
+                {/* Encabezado Sticky */}
+                <div className={styles.encabezadoLista}>
+                  <div className={styles.colEncabezadoRp} onClick={handleClickRP}>
+                    RP
+                    <span className={styles.iconoOrden}>
+                      <FaSort size={15} />
+                    </span>
+                  </div>
+                  <div className={styles.colEncabezado} onClick={handleClickEP}>
+                    Est. Prod.
+                    <span className={styles.iconoOrden}>
+                      <FaSort size={15} />
+                    </span>
+                  </div>
+                  <div className={styles.colEncabezado} onClick={handleClickER}>
+                    Est. Rep.
+                    <span className={styles.iconoOrden}>
+                      <FaSort size={15} />
+                    </span>
+                  </div>
+                  <div className={styles.colEncabezadoErp}>eRP</div>
+                  <div className={styles.colEncabezadoAcciones}>Acciones</div>
+                </div>
+
+                {/* Lista de tarjetas */}
+                <div className={styles.listaAnimales}>
+                  {animales.map((a) => (
+                    <div key={a.id} className={styles.animalCard}>
+                      <div className={styles.columna}>
+                        <span className={styles.valor}>{a.rp || '-'}</span>
+                      </div>
+                      <div className={styles.columna}>
+                        <span className={styles.valor}>{a.estpro ?? '-'}</span>
+                      </div>
+                      <div className={styles.columna}>
+                        <span className={styles.valor}>{a.estrep ?? '-'}</span>
+                      </div>
+                      <div className={styles.columna}>
+                        <span className={styles.valor}>{a.erp || '-'}</span>
+                      </div>
+                      <div className={styles.columnaAcciones}>
+                        <DetalleAnimal animal={a} guardarElim={guardarElim} />
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </Contenedor>
-            :
+            )
+          ) : (
             <SelectTambo />
-        }
+          )}
 
-        {/* Modal for notifications */}
-        <Modal show={showModal} onHide={() => setShowModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Notificaciones</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <p>{modalMessage}</p>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowModal(false)}>
-              Cerrar
-            </Button>
-          </Modal.Footer>
-        </Modal>
+          {/* Modal de notificación */}
+          <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Notificaciones</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>{modalMessage}</p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={() => setShowModal(false)}>
+                Cerrar
+              </Button>
+            </Modal.Footer>
+          </Modal>
+        </div>
       </>
-    </Layout >
-
-  )
+    </Layout>
+  );
 }
 
-export default Animales
+export default Animales;

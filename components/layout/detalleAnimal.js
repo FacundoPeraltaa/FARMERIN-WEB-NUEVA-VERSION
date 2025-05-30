@@ -5,7 +5,7 @@ import FichaAnimal from './fichaAnimal';
 import { RiEdit2Line, RiAddBoxLine, RiDeleteBin2Line } from 'react-icons/ri';
 import { Modal, Button, Alert, Form, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { format } from 'date-fns'
-
+import styles from '../../styles/Animales.module.scss'
 const DetalleAnimal = ({ animal, guardarElim }) => {
 
    const { firebase } = useContext(FirebaseContext);
@@ -79,124 +79,82 @@ const DetalleAnimal = ({ animal, guardarElim }) => {
 
    }
 
-   return (
-      <>
-         <tr>
-            <td >
-               {rp}
-            </td>
+return (
+  <>
+    <tr>
+      <td className={styles.celda}>
+        <div className={styles.acciones}>
+          <div className={styles.tooltipWrapper}>
+            <Button className={styles.btnIconoInfo} onClick={handleShow}>
+              <RiAddBoxLine size={20} />
+            </Button>
+            <span className={styles.tooltipText}>Ver ficha</span>
+          </div>
 
-            <td >
-               {estpro}
-            </td>
-            <td >
-               {estrep}
-            </td>
-            <td >
-               {erp}
-            </td>
-            <td>
-               <OverlayTrigger
-                  placement="bottom"
-                  overlay={<Tooltip >Ficha</Tooltip>}
-               >
-                  <Button
-                     variant="link"
-                     onClick={handleShow}
-                  >
-                     <RiAddBoxLine size={22} />
-                  </Button>
-               </OverlayTrigger>
-               <Link
-                  href="/animales/[id]" as={`/animales/${id}`}>
-                  <span>
-                    <Button
-                       variant="link"
-                    >
-                       <OverlayTrigger
-                          placement="bottom"
-                          overlay={<Tooltip >Editar</Tooltip>}
-                       >
-                          <RiEdit2Line size={22} />
-                       </OverlayTrigger>
-                    </Button>
-                  </span>
-               </Link>
+          <div className={styles.tooltipWrapper}>
+            <Link href={`/animales/${id}`} legacyBehavior passHref>
+              <Button className={styles.btnIconoEditar}>
+                <RiEdit2Line size={20} />
+              </Button>
+            </Link>
+            <span className={styles.tooltipText}>Editar animal</span>
+          </div>
 
-               <OverlayTrigger
-                  placement="bottom"
-                  overlay={<Tooltip >Eliminar</Tooltip>}
-               >
+          <div className={styles.tooltipWrapper}>
+            <Button className={styles.btnIconoBorrar} onClick={handleShowElim}>
+              <RiDeleteBin2Line size={20} />
+            </Button>
+            <span className={styles.tooltipText}>Eliminar animal</span>
+          </div>
+        </div>
+      </td>
+    </tr>
 
-                  <Button
-                     variant="link"
-                     onClick={handleShowElim}
-                  >
-                     <RiDeleteBin2Line size={22} />
-                  </Button>
-               </OverlayTrigger>
+    {/* Modal de eliminación */}
+    <Modal show={showElim} onHide={handleCloseElim}>
+      <Modal.Header closeButton>
+        <Modal.Title>Atención!</Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <p>¿Desea dar de baja el animal {rp}?</p>
 
-            </td>
-         </tr>
+        <Form.Control
+          as="select"
+          id="motivo"
+          name="motivo"
+          placeholder="Seleccione motivo"
+          onChange={changeMotivo}
+        >
+          <option value="0">Seleccione motivo...</option>
+          {motivos.length !== 0 &&
+            motivos.map(m => (
+              <option key={m.id} value={m.descripcion}>
+                {m.descripcion}
+              </option>
+            ))}
+        </Form.Control>
 
+        <Alert variant="danger" show={error}>
+          <p>{descError}</p>
+        </Alert>
+      </Modal.Body>
+      <Modal.Footer>
+        <Button variant="success" onClick={eliminarAnimal}>Aceptar</Button>
+        <Button variant="danger" onClick={handleCloseElim}>Cancelar</Button>
+      </Modal.Footer>
+    </Modal>
 
-         <Modal show={showElim} onHide={handleCloseElim}>
-            <Modal.Header closeButton>
-               <Modal.Title>
-                  <p>Atención!</p>
+    {/* Modal de ficha animal */}
+    {show && (
+      <FichaAnimal
+        animal={animal}
+        show={show}
+        setShow={setShow}
+      />
+    )}
+  </>
+);
 
-               </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-
-               <p>¿Desea dar de baja el animal {rp} ?</p>
-
-               <Form.Control
-                  as="select"
-                  id="motivo"
-                  name="motivo"
-
-                  placeholder="Seleccione motivo"
-                  onChange={changeMotivo}
-
-               >
-                  <option value="0" >Seleccione motivo...</option>
-                  {(motivos.length != 0) &&
-                     motivos.map(m => (
-                        <option key={m.id} value={m.descripcion}>{m.descripcion}</option>
-                     ))
-                  }
-               </Form.Control>
-               <Alert variant="danger" show={error} >
-                  <p>{descError}</p>
-               </Alert>
-            </Modal.Body>
-            <Modal.Footer>
-
-               <Button
-                  variant="success"
-                  onClick={eliminarAnimal}
-
-               >Aceptar</Button>
-               <Button
-                  variant="danger"
-                  onClick={handleCloseElim}
-
-               >
-                  Cancelar </Button>
-            </Modal.Footer>
-         </Modal>
-         { show &&
-            <FichaAnimal
-               animal={animal}
-               show={show}
-               setShow={setShow}
-            />
-         }
-
-      </>
-
-   );
 }
 
 export default DetalleAnimal;
