@@ -502,3 +502,29 @@
     transform: translateY(0);
   }
 }
+
+/// MODAL DE CARGA A LA HORA DE INGRESAR TAMBO 
+// Estilo para el modal de carga (spinner bloqueante)
+.modalCarga {
+  text-align: center;
+  padding: 2rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+  .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #007bff;
+  }
+
+  p {
+    margin-top: 1.5rem;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 500;
+  }
+}
+
+// Estilo adicional para fondo del modal (si querés modificarlo más)
+.modal-backdrop.show {
+  background-color: rgba(0, 0, 0, 0.4);
+}

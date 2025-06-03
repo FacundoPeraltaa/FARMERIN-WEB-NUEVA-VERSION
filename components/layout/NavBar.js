@@ -150,6 +150,10 @@ const NavBar = () => {
     return 'Fecha desconocida';
   }
 
+    // 🚫 OCULTAR NAVBAR SI NO HAY TAMBO SELECCIONADO
+  if (!tamboSel) return null;
+
+  
   return (
     <header className={styles.navbar}>
       <div className={styles.navContainer}>

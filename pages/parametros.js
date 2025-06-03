@@ -5,9 +5,11 @@ import { FirebaseContext } from '../firebase2';
 import Layout from '../components/layout/layout';
 import DetalleParametro from '../components/layout/detalleParametro';
 import SelectTambo from '../components/layout/selectTambo';
-import { Button, DropdownButton, Dropdown } from 'react-bootstrap';
+import { Button, DropdownButton, Dropdown, Row, Col, } from 'react-bootstrap';
 import { format } from 'date-fns';
 import { addNotification } from '../redux/notificacionSlice';
+import styles from '../styles/Parametro.module.scss'
+
 
 const Parametros = () => {
   const [valor, setValor] = useState(0);
@@ -144,92 +146,105 @@ const Parametros = () => {
 
   return (
     <Layout titulo="Parámetros Nutricionales">
-      <>
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-        <h1 style={{ color: "#404040", fontWeight: "bold", fontSize: "34px", marginTop: 0 }}>ALIMENTACIÓN</h1>
-        <div style={{ display: "flex", flexDirection: "row", gap: "7px" }}>
-          <p style={{ color: "grey", fontWeight: "bold", fontSize: "18px", marginTop: 0 }}>ESTADO ACTUAL: </p>
-          <p style={{ color: "#404040", fontWeight: "bold", fontSize: "18px" }}>
-            {valor === 0 ? "POR DEFECTO" : null}
-            {valor < 0 ? "REDUCCIÓN DEL " + valor + "%" : null}
-            {valor > 0 ? "AUMENTO DEL " + valor + "%" : null}
-          </p>
+      <div className={styles.container}>
+        <h1 className={styles.titulo}>🥩 Alimentación</h1>
+
+        <div className={styles.estadoActual}>
+          <span className={styles.estadoLabel}>Estado actual:</span>
+          <span className={styles.estadoValor}>
+            {valor === 0
+              ? "Por defecto"
+              : valor < 0
+                ? `Reducción del ${valor}%`
+                : `Aumento del ${valor}%`}
+          </span>
         </div>
-      </div>
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "10px" }}>
-        <div style={{ display: "flex", flexDirection: "row", gap: "10px" }}>
-          <DropdownButton
-            id="dropdown-reducir-button"
-            title={isIncrease === false && selectedChange !== null ? `Reducción : ${selectedChange}%` : 'Seleccionar Reducción'}
-            variant="danger"
-            className='dropdown-reducir-button'
-            onSelect={(e) => { setSelectedChange(parseInt(e)); setIsIncrease(false); }}
-          >
-            <Dropdown.Item eventKey="-10">-10%</Dropdown.Item>
-            <Dropdown.Item eventKey="-20">-20%</Dropdown.Item>
-            <Dropdown.Item eventKey="-30">-30%</Dropdown.Item>
-            <Dropdown.Item eventKey="-40">-40%</Dropdown.Item>
-            <Dropdown.Item eventKey="-50">-50%</Dropdown.Item>
-          </DropdownButton>
-          <Button
-            style={{ fontWeight: "bold", borderRadius: "10px", width: "20%", height: "50px", fontSize: "18px", display: "flex", alignItems: "center", justifyContent: "center" }}
-            variant="info"
-            block
-            className='botonRestablecer'
-            onClick={restablecer}
-          >Restablecer</Button>
+
+        <div className={styles.bloqueBotones}>
           <DropdownButton
             id="dropdown-aumentar-button"
-            title={isIncrease === true && selectedChange !== null ? `Aumento : ${selectedChange}%` : 'Seleccionar Aumento'}
-            variant="success"
-            className='dropdown-aumentar-button'
-            onSelect={(e) => { setSelectedChange(parseInt(e)); setIsIncrease(true); }}
+            title={
+              isIncrease && selectedChange !== null
+                ? `Aumento: ${selectedChange}%`
+                : "Seleccionar Aumento"
+            }
+            className={`${styles.dropdownAumentarButton} ${styles.dropdownEstilo}`}
+            variant=""
+            onSelect={(e) => {
+              setSelectedChange(parseInt(e));
+              setIsIncrease(true);
+            }}
           >
-            <Dropdown.Item eventKey="10">10%</Dropdown.Item>
-            <Dropdown.Item eventKey="20">20%</Dropdown.Item>
-            <Dropdown.Item eventKey="30">30%</Dropdown.Item>
-            <Dropdown.Item eventKey="40">40%</Dropdown.Item>
-            <Dropdown.Item eventKey="50">50%</Dropdown.Item>
-            <Dropdown.Item eventKey="60">60%</Dropdown.Item>
-            <Dropdown.Item eventKey="70">70%</Dropdown.Item>
-            <Dropdown.Item eventKey="80">80%</Dropdown.Item>
-            <Dropdown.Item eventKey="90">90%</Dropdown.Item>
-            <Dropdown.Item eventKey="100">100%</Dropdown.Item>
+            {["10", "20", "30", "40", "50", "60", "70", "80", "90", "100"].map(
+              (p) => (
+                <Dropdown.Item key={p} eventKey={p}>
+                  {p}%
+                </Dropdown.Item>
+              )
+            )}
+          </DropdownButton>
+
+          <Button className={styles.botonRestablecer} onClick={restablecer}>
+            Restablecer
+          </Button>
+
+          <DropdownButton
+            id="dropdown-reducir-button"
+            title={
+              !isIncrease && selectedChange !== null
+                ? `Reducción: ${selectedChange}%`
+                : "Seleccionar Reducción"
+            }
+            className={`${styles.dropdownReducirButton} ${styles.dropdownEstilo}`}
+            variant=""
+            onSelect={(e) => {
+              setSelectedChange(parseInt(e));
+              setIsIncrease(false);
+            }}
+          >
+            {["-10", "-20", "-30", "-40", "-50"].map((p) => (
+              <Dropdown.Item key={p} eventKey={p}>
+                {p}%
+              </Dropdown.Item>
+            ))}
           </DropdownButton>
         </div>
-        {
-          selectedChange !== null && (
-            <Button
-              style={{ fontWeight: "bold", borderRadius: "10px", width: "20%", height: "50px", fontSize: "18px", display: "flex", alignItems: "center", justifyContent: "center" }}
-              variant="primary"
-              block
-              className='botonAplicar'
-              onClick={handleApplyChange}
-            >Aplicar</Button>
-          )
-        }
-      </div >
-      {
-        tamboSel ?
-          <>
-            < DetalleParametro
-              idTambo={tamboSel.id}
-              categoria="Vaquillona"
-              porcentaje={porcentaje}
-            />
-            <DetalleParametro
-              idTambo={tamboSel.id}
-              categoria="Vaca"
-              porcentaje={porcentaje}
-            />
-          </>
-          :
-          <SelectTambo />
-      }
-      </>
-    </Layout >
 
+        {selectedChange !== null && (
+          <div className={styles.botonAplicarWrapper}>
+            <Button className={styles.botonAplicar} onClick={handleApplyChange}>
+              Aplicar cambio
+            </Button>
+          </div>
+        )}
+
+        {tamboSel ? (
+          <>
+            <Row className="gx-4 gy-4 mt-3">
+              <Col md={6}>
+                <DetalleParametro
+                  idTambo={tamboSel.id}
+                  categoria="Vaquillona"
+                  porcentaje={porcentaje}
+                />
+              </Col>
+              <Col md={6}>
+                <DetalleParametro
+                  idTambo={tamboSel.id}
+                  categoria="Vaca"
+                  porcentaje={porcentaje}
+                />
+              </Col>
+            </Row>
+          </>
+        ) : (
+          <SelectTambo />
+        )}
+      </div>
+    </Layout>
   );
+
+
 };
 
 export default Parametros;

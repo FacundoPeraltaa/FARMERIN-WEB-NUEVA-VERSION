@@ -176,7 +176,7 @@ const Animales = () => {
               className={styles.inputRp}
             />
 
-            <button onClick={handleChange} variant="info" block
+            <button onClick={handleSubmit} variant="info" block
               type="submit" className={`${styles.customBtn} ${styles.searchBtn}`}>
               <RiSearchLine size={20} className={styles.btnIcon} />
               Buscar

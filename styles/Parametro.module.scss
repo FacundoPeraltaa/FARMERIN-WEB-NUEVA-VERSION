@@ -1,0 +1,325 @@
+//////////////////////////// PARAMETROS Y DETALLE PRAMETRO ///////////////////
+/* PARAMETRO */
+.container {
+    max-width: 2500px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    background-color: #f9f9f9;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.titulo {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.estadoActual {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.estadoLabel {
+    font-weight: 600;
+    color: #666;
+}
+
+.estadoValor {
+    font-weight: 700;
+    color: #222;
+}
+
+
+
+// Estilo común para el dropdown (globales anidados correctamente)
+.dropdownEstilo {
+    :global(.dropdown-toggle) {
+        font-size: 1.25rem;
+        padding: 0.75rem 1.5rem;
+        line-height: 1.5;
+        color: white !important;
+    }
+
+    :global(.dropdown-menu) {
+        background-color: whitesmoke !important;
+        border-color: #000000 !important;
+    }
+
+    :global(.dropdown-item) {
+        font-size: 1.25rem;
+        padding: 0.75rem 1.5rem;
+        color: black;
+    }
+
+    :global(.dropdown-item:hover) {
+        background-color: white;
+        color: black;
+    }
+}
+
+// Botón para aumento (verde)
+.dropdownAumentarButton {
+    :global(.dropdown-toggle) {
+        background-color: #4cb151 !important;
+        border-color: #4cb151 !important;
+        border-radius: 10px;
+
+        &:hover {
+            background-color: #2f7a33 !important;
+            border-color: #2f7a33 !important;
+        }
+    }
+}
+
+// Botón para reducción (rojo)
+.dropdownReducirButton {
+    :global(.dropdown-toggle) {
+        background-color: rgb(216, 43, 43) !important;
+        border-color: rgb(216, 43, 43) !important;
+        border-radius: 10px;
+
+        &:hover {
+            background-color: rgb(145, 28, 28) !important;
+            border-color: rgb(145, 28, 28) !important;
+        }
+    }
+}
+
+// Botón de aplicar
+.botonAplicar {
+    font-weight: bold;
+    border-radius: 10px;
+    width: 20%;
+    margin: 0 auto;
+    height: 50px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: #297fba; // azul por defecto
+    border-radius: 10px;
+
+    &:hover {
+        background-color: #174c6f;
+    }
+}
+
+// Botón de restablecer
+.botonRestablecer {
+    padding: 0.75rem 1.5rem;
+    font-weight: bold;
+    border-radius: 10px;
+    width: 40%;
+    height: 45px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: #6c757d;
+    border-color: #6c757d;
+
+    &:hover {
+        background-color: #484c4f;
+        border-color: #6c757d;
+    }
+}
+
+// Otros estilos opcionales
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.titulo {
+    color: #404040;
+    font-weight: bold;
+    font-size: 34px;
+    margin-top: 0;
+}
+
+.estadoActual {
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+    align-items: center;
+}
+
+.estadoLabel {
+    color: grey;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.estadoValor {
+    color: #404040;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.bloqueBotones {
+    display: flex;
+    gap: 5px;
+    margin-top: 10px;
+}
+
+.botonAplicarWrapper {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+
+
+/* DETALLE PARAMETRO */
+
+.paramCard {
+    background-color: #ffffff;
+    border-radius: 7px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    padding: 1.0rem;
+    margin-bottom: 2rem;
+    transition: transform 0.2s ease;
+
+    &:hover {
+        transform: scale(1.01);
+    }
+}
+
+.tablaScroll {
+    min-width: 15px;
+
+}
+
+.botonNuevo {
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.tituloCategoria {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: #333;
+    margin-top: 0.5rem;
+}
+
+
+
+.tablaParam {
+    min-width: 200px;
+    text-align: center;
+
+    th {
+        background-color: #f1f3f5;
+        color: #333;
+        font-weight: 600;
+        font-size: 0.95rem;
+        vertical-align: middle;
+    }
+
+    td {
+        vertical-align: middle;
+    }
+}
+
+
+/////// ACCIONES 
+.filaParametro {
+    border-bottom: 1px solid #d6d6d6;
+    transition: background 0.2s ease;
+    height: 48px; // o el valor necesario para igualarlas
+    vertical-align: middle;
+
+    &:hover {
+        background-color: #f9f9f9;
+    }
+}
+
+.columna {
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #212529;
+    border-right: 1px solid #eaeaea;
+    min-width: 30px;
+    text-align: center;
+}
+
+.colAcciones {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 6px;
+    justify-content: center;
+    padding: 0.5rem;
+    min-width: 155px;
+}
+
+.iconBtnEdit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.4rem 0.5rem;
+    border-radius: 6px;
+    font-size: 1rem;
+    color: #4cb151;
+    border-color: #4cb151;
+    transition: background-color 0.2s;
+}
+
+.iconBtnEdit,
+.iconBtnElim,
+.iconBtnSubir,
+.iconBtnBajar,
+.iconBtnStop {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+}
+
+///// TOOLTIP ACCIONES
+.tooltipWrapper {
+    position: relative;
+    display: inline-block;
+    margin: 0 5px;
+
+    &:hover .tooltipText {
+        opacity: 1;
+        visibility: visible;
+    }
+}
+
+.tooltipText {
+    visibility: hidden;
+    opacity: 0;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 4px;
+    padding: 4px 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    /* Ajustá según necesidad */
+    left: 50%;
+    transform: translateX(-50%);
+    transition: opacity 0.3s;
+    font-size: 12px;
+    white-space: nowrap;
+}
