@@ -408,7 +408,7 @@ const Control = () => {
                     </Mensaje>
                     :
                     <Contenedor>
-                        <StickyTable height={450}>
+                        <StickyTable height={550}>
                             <Table responsive>
                                 <thead>
                                     <tr>
