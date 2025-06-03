@@ -11,7 +11,7 @@ import { RiSearchLine } from 'react-icons/ri';
 import differenceInDays from 'date-fns/differenceInDays'
 import { format } from 'date-fns'
 import ReactExport from "react-export-excel";
-
+import styles from '../styles/gralAnimales.module.scss'
 
 const GralAnimales = () => {
 
@@ -98,13 +98,13 @@ const GralAnimales = () => {
       }
       return {
         id: doc.id,
-        diasLact:diasLact,
+        diasLact: diasLact,
         ...doc.data()
       }
     })
 
     guardarAnimalesBase(animales);
-   
+
   }
 
   function aplicarFiltro() {
@@ -363,80 +363,64 @@ const GralAnimales = () => {
   }
 
   return (
-
-    <Layout
-      titulo="Reportes"
-    >
-      <>
+  <Layout titulo="Reportes">
+    <>
       <Botonera>
-     
-          
-          <Row>
-          <Col lg={true}>
-            <h6>Total: {animales.length}</h6>
-          </Col>
-          <Col lg={true}>
-            <h6>&nbsp;</h6>
-          </Col>
-          <Col lg={true}>
-            <h6>&nbsp;</h6>
-          </Col>
-          <Col lg={true}>
-            <h6>&nbsp;</h6>
-          </Col>
-          <Col lg={true}>
-            <h6>&nbsp;</h6>
-          </Col>
-          <Col lg={true}>
-            <h6>&nbsp;</h6>
-          </Col>
-          <Col lg={true}>
-            <h6>&nbsp;</h6>
-          </Col>
-          {animales.length > 0 ?
-            <Col lg={true}>
-              <ExcelFile 
-                element={ <Button variant="success"  type="submit" block >Excel</Button>}
-                filename="Animales"
-              >
-                
-                <ExcelSheet  data={animales} name="Animales">
-                    <ExcelColumn label="RP" value="rp"/>
-                    <ExcelColumn label="Grupo" value="categoria"/>
-                    <ExcelColumn label="Rodeo" value="rodeo"/>
-                    <ExcelColumn label="Est.Rep." value="estrep"/>
-                    <ExcelColumn label="Est.Prod." value="estpro"/>
-                    <ExcelColumn label="Nro.Lact." value="lactancia"/>
-                    <ExcelColumn label="Le.UC" value="uc"/>
-                    <ExcelColumn label="Le.CA" value="ca"/>
-                    <ExcelColumn label="Dias Lact." value="diasLact"/>
-                    <ExcelColumn label="Ración(Kg)" value="racion"/>
-                    <ExcelColumn label="N°Serv." value="nservicio"/>
-                    <ExcelColumn label="F.Serv." value="fservicio"/>
-                    <ExcelColumn label="eRP" value="erp"/>
-
-                </ExcelSheet>
-  
-            </ExcelFile>
-             
-            </Col>
-            :
-            <Col lg={true}></Col>
-
-          }
-
-        </Row>
-
-
         <Row>
           <Col lg={true}>
-            <Form
-              onSubmit={handleSubmit}
-            >
+            <h6 className={styles.totalHeader}>Total: {animales.length}</h6>
+          </Col>
+          <Col lg={true}><h6>&nbsp;</h6></Col>
+          <Col lg={true}><h6>&nbsp;</h6></Col>
+          <Col lg={true}><h6>&nbsp;</h6></Col>
+          <Col lg={true}><h6>&nbsp;</h6></Col>
+          <Col lg={true}><h6>&nbsp;</h6></Col>
+          <Col lg={true}><h6>&nbsp;</h6></Col>
+
+          {animales.length > 0 ? (
+            <Col lg={true}>
+              <ExcelFile
+                element={
+                  <Button
+                    variant="success"
+                    type="submit"
+                    block
+                    className={styles.botonExcel}
+                  >
+                    Excel
+                  </Button>
+                }
+                filename="Animales"
+              >
+                <ExcelSheet data={animales} name="Animales">
+                  <ExcelColumn label="RP" value="rp" />
+                  <ExcelColumn label="Grupo" value="categoria" />
+                  <ExcelColumn label="Rodeo" value="rodeo" />
+                  <ExcelColumn label="Est.Rep." value="estrep" />
+                  <ExcelColumn label="Est.Prod." value="estpro" />
+                  <ExcelColumn label="Nro.Lact." value="lactancia" />
+                  <ExcelColumn label="Le.UC" value="uc" />
+                  <ExcelColumn label="Le.CA" value="ca" />
+                  <ExcelColumn label="Dias Lact." value="diasLact" />
+                  <ExcelColumn label="Ración(Kg)" value="racion" />
+                  <ExcelColumn label="N°Serv." value="nservicio" />
+                  <ExcelColumn label="F.Serv." value="fservicio" />
+                  <ExcelColumn label="eRP" value="erp" />
+                </ExcelSheet>
+              </ExcelFile>
+            </Col>
+          ) : (
+            <Col lg={true}></Col>
+          )}
+        </Row>
+
+        <Row className={styles.filtrosRow}>
+          <Col lg={true}>
+            <Form onSubmit={handleSubmit}>
               <Row>
                 <Col lg={true}>
                   <Form.Group>
-                    <Form.Label>RP / eRP</Form.Label>
+                    <Form.Label className={styles.filtroLabel}>RP / eRP</Form.Label>
                     <Form.Control
                       type="string"
                       id="rp"
@@ -444,95 +428,93 @@ const GralAnimales = () => {
                       name="rp"
                       value={rp}
                       onChange={handleChange}
-
-
+                      className={styles.filtroInput}
                     />
                   </Form.Group>
                 </Col>
                 <Col lg={true}>
                   <Form.Group>
-                    <Form.Label>Est. Productivo</Form.Label>
+                    <Form.Label className={styles.filtroLabel}>Est. Productivo</Form.Label>
                     <Form.Control
                       as="select"
                       id="estpro"
                       name="estpro"
                       onChange={handleChange}
                       required
+                      className={styles.filtroInput}
                     >
-                      <option value="todos" >Todos</option>
-                      <option value="En Ordeñe" >En Ordeñe</option>
-                      <option value="seca" >Seca</option>
-                      <option value="cria" >Cria</option>
-                      <option value="rechazo" >Rechazo</option>
-
+                      <option value="todos">Todos</option>
+                      <option value="En Ordeñe">En Ordeñe</option>
+                      <option value="seca">Seca</option>
+                      <option value="cria">Cria</option>
+                      <option value="rechazo">Rechazo</option>
                     </Form.Control>
                   </Form.Group>
                 </Col>
                 <Col lg={true}>
                   <Form.Group>
-                    <Form.Label>Est. Reprod.</Form.Label>
+                    <Form.Label className={styles.filtroLabel}>Est. Reprod.</Form.Label>
                     <Form.Control
                       as="select"
                       id="estrep"
                       name="estrep"
                       onChange={handleChange}
                       required
+                      className={styles.filtroInput}
                     >
-                      <option value="todos" >Todas</option>
-                      <option value="preñada" >Preñadas</option>
-                      <option value="vacia" >Vacias</option>
-
+                      <option value="todos">Todas</option>
+                      <option value="preñada">Preñadas</option>
+                      <option value="vacia">Vacias</option>
                     </Form.Control>
                   </Form.Group>
                 </Col>
                 <Col lg={true}>
                   <Form.Group>
-                    <Form.Label>Grupo</Form.Label>
+                    <Form.Label className={styles.filtroLabel}>Grupo</Form.Label>
                     <Form.Control
                       as="select"
                       id="categoria"
                       name="categoria"
                       onChange={handleChange}
                       required
+                      className={styles.filtroInput}
                     >
-                      <option value="todos" >Todas</option>
-                      <option value="vaca" >Vacas</option>
-                      <option value="vaquillona" >Vaquillonas</option>
-
+                      <option value="todos">Todas</option>
+                      <option value="vaca">Vacas</option>
+                      <option value="vaquillona">Vaquillonas</option>
                     </Form.Control>
                   </Form.Group>
                 </Col>
                 <Col lg={true}>
                   <Form.Group>
-                    <Form.Label>Rodeo</Form.Label>
+                    <Form.Label className={styles.filtroLabel}>Rodeo</Form.Label>
                     <Form.Control
                       as="select"
                       id="rodeo"
                       name="rodeo"
                       onChange={handleChange}
                       required
+                      className={styles.filtroInput}
                     >
-                      <option value="0" >Todos</option>
-
-                      {(rodeos.length != 0) &&
-                        rodeos.map(r => (
-                          <option key={r} value={r}>{r}</option>
+                      <option value="0">Todos</option>
+                      {rodeos.length !== 0 &&
+                        rodeos.map((r) => (
+                          <option key={r} value={r}>
+                            {r}
+                          </option>
                         ))}
-
                     </Form.Control>
                   </Form.Group>
                 </Col>
 
                 <Col lg={true}>
-
                   <h5>&nbsp;</h5>
-
                   <Form.Group>
-
                     <Button
                       variant="info"
                       type="submit"
                       block
+                      className={styles.botonBuscar}
                     >
                       <RiSearchLine size={22} />
                       &nbsp;
@@ -540,67 +522,74 @@ const GralAnimales = () => {
                     </Button>
                   </Form.Group>
                 </Col>
-
               </Row>
             </Form>
-
           </Col>
-
         </Row>
+      </Botonera>
 
-      </Botonera >
+      {procesando ? (
+        <ContenedorSpinner>
+          <Spinner animation="border" variant="info" />
+        </ContenedorSpinner>
+      ) : tamboSel ? (
+        animales.length === 0 ? (
+          <Mensaje className={styles.mensajeSinResultados}>
+            <div className={styles.mensajeCaja}>
+              <h2 className={styles.tituloSinResultados}>Sin resultados</h2>
+              <p className={styles.textoSecundario}>
+                Presiona <strong>Buscar</strong> para obtener los animales
+              </p>
+            </div>
+          </Mensaje>
+        ) : (
+          <Contenedor>
+            <StickyTable height={410}>
+              <Table responsive>
+                <thead>
+                  <tr>
+                    <th onClick={handleClickRP}>
+                      RP <FaSort size={15} />
+                    </th>
+                    <th onClick={handleClickGr}>
+                      Grupo <FaSort size={15} />
+                    </th>
+                    <th onClick={handleClickRo}>
+                      Rodeo <FaSort size={15} />
+                    </th>
+                    <th onClick={handleClickER}>
+                      Est. Rep. <FaSort size={15} />
+                    </th>
+                    <th onClick={handleClickEP}>
+                      Est. Prod. <FaSort size={15} />
+                    </th>
+                    <th onClick={handleClickLact}>Lact.<FaSort size={15} /></th>
+                    <th onClick={handleClickUC}>Le.UC <FaSort size={15} /></th>
+                    <th onClick={handleClickCA}>Le.CA <FaSort size={15} /></th>
+                    <th onClick={handleClickDl}>Días Lact.<FaSort size={15} /></th>
+                    <th>Ración(Kg)</th>
+                    <th>N°Serv.</th>
+                    <th>F.Serv.</th>
+                    <th>eRP</th>
+                    <th>Más...</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {animales.map((a) => (
+                    <DetalleGralAnimal key={a.id} animal={a} />
+                  ))}
+                </tbody>
+              </Table>
+            </StickyTable>
+          </Contenedor>
+        )
+      ) : (
+        <SelectTambo />
+      )}
+    </>
+  </Layout>
+);
 
-      {procesando ? <ContenedorSpinner> <Spinner animation="border" variant="info" /></ContenedorSpinner> :
-        //si hay tambo
-        tamboSel ?
-
-          animales.length == 0 ?
-            <Mensaje>
-              <Alert variant="warning" >No se encontraron resultados</Alert>
-            </Mensaje>
-            :
-            <Contenedor>
-              <StickyTable height={360}>
-                <Table responsive>
-                  <thead>
-                    <tr>
-                      <th onClick={handleClickRP}>RP  <FaSort size={15} /></th>
-                      <th onClick={handleClickGr}>Grupo <FaSort size={15} /></th>
-                      <th onClick={handleClickRo}>Rodeo <FaSort size={15} /></th>
-                      <th onClick={handleClickER}>Est. Rep. <FaSort size={15} /></th>
-                      <th onClick={handleClickEP}>Est. Prod. <FaSort size={15} /></th>
-                      <th onClick={handleClickLact}>Lact.<FaSort size={15} /></th>
-                      <th onClick={handleClickUC}>Le.UC <FaSort size={15} /></th>
-                      <th onClick={handleClickCA}>Le.CA <FaSort size={15} /></th>
-                      <th onClick={handleClickDl}>Días Lact.<FaSort size={15} /></th>
-                      <th>Ración(Kg)</th>
-                      <th>N°Serv.</th>
-                      <th>F.Serv.</th>
-                      <th>eRP</th>
-                      <th>Más...</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {animales.map(a => (
-                      <DetalleGralAnimal
-                        key={a.id}
-                        animal={a}
-
-                      />
-                    )
-                    )}
-                  </tbody>
-                </Table>
-              </StickyTable>
-            </Contenedor>
-          :
-          <SelectTambo />
-
-      }
-      </>
-    </Layout >
-
-  )
 }
 
 export default GralAnimales

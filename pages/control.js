@@ -11,6 +11,7 @@ import { FaSort } from 'react-icons/fa';
 import { RiSendPlaneLine } from 'react-icons/ri';
 import { useDispatch } from 'react-redux'; // Import useDispatch
 import { addNotification } from '../redux/notificacionSlice';
+import styles from '../styles/Control.module.scss'
 // Control
 
 const Control = () => {
@@ -392,126 +393,127 @@ const Control = () => {
     };
 
     return (
-        <Layout
-            titulo="Nutricion"
-        >
-          <>
-            <Botonera>
-                <h6 style={{ textAlign: 'center', fontSize: 'larger' }}>Control de alimentación: {animales.length} animales - Promedio actual: {promRacMod} Kgs.- Promedio Sugerido: {promSug} Kgs.- Promedio Dias Lact.: {promLac} Dias.</h6>
-            </Botonera >
+        <Layout titulo="Nutricion">
+            <>
+                <Botonera>
+                    <h6 className={styles.resumenNutricion}>
+                        Control de alimentación: {animales.length} animales - Promedio actual: {promRacMod} Kgs.- Promedio Sugerido: {promSug} Kgs.- Promedio Dias Lact.: {promLac} Dias.
+                    </h6>
+                </Botonera>
 
-            {tamboSel ?
+                {tamboSel ? (
+                    animales.length == 0 ? (
+                        <Mensaje>
+                            <Alert variant="warning">No se encontraron resultados</Alert>
+                        </Mensaje>
+                    ) : (
+                        <Contenedor>
+                            <StickyTable className={styles.stickyTable} height={550}>
+                                <Table responsive>
+                                    <thead>
+                                        <tr>
+                                            <th onClick={handleClickRP}>RP <FaSort size={15} /></th>
+                                            <th onClick={handleClickLact}>Lact. <FaSort size={15} /></th>
+                                            <th onClick={handleClickGr}>Categ <FaSort size={15} /></th>
+                                            <th onClick={handleClickRo}>Rodeo <FaSort size={15} /></th>
+                                            <th onClick={handleClickUC}>Le.UC <FaSort size={15} /></th>
+                                            <th>F.UC</th>
+                                            <th onClick={handleClickCA}>Le.CA <FaSort size={15} /></th>
+                                            <th onClick={handleClickAn}>Anorm. <FaSort size={15} /></th>
+                                            <th onClick={handleClickDl}>Días Lact. <FaSort size={15} /></th>
+                                            <th onClick={handleClickER}>Est. Rep. <FaSort size={15} /></th>
+                                            <th onClick={handleClickDP}>Días Preñ. <FaSort size={15} /></th>
+                                            <th onClick={handleClickRac}>Ración <FaSort size={15} /></th>
+                                            <th>F.Racion</th>
+                                            <th>
+                                                <div className={styles.controlTooltip}>
+                                                    <Button
+                                                        className={styles.controlBtn}
+                                                        onClick={() => setShowConfirmModal(true)}
+                                                    >
+                                                        <RiSendPlaneLine />
+                                                    </Button>
+                                                    <span className={styles.controlTooltipText}>Asignar la ración sugerida a todos.</span>
+                                                </div>
+                                            </th>
+                                            <th>Racion Sugerida</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {animales.map(a => (
+                                            <DetalleControl
+                                                key={a.id}
+                                                animal={a}
+                                                animales={animales}
+                                                guardarAnimales={guardarAnimales}
+                                                racionModificada={a.racionModificada}
+                                                aplicarRacionSugerida={aplicarRacionSugerida}
+                                            />
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            </StickyTable>
+                        </Contenedor>
+                    )
+                ) : (
+                    <SelectTambo />
+                )}
 
-                animales.length == 0 ?
-                    <Mensaje>
-                        <Alert variant="warning" >No se encontraron resultados</Alert>
-                    </Mensaje>
-                    :
-                    <Contenedor>
-                        <StickyTable height={550}>
-                            <Table responsive>
-                                <thead>
-                                    <tr>
-                                        <th onClick={handleClickRP}>RP  <FaSort size={15} /></th>
-                                        <th onClick={handleClickLact}>Lact.<FaSort size={15} /></th>
-                                        <th onClick={handleClickGr}>Categ <FaSort size={15} /></th>
-                                        <th onClick={handleClickRo}>Rodeo <FaSort size={15} /></th>
-                                        <th onClick={handleClickUC}>Le.UC <FaSort size={15} /> </th>
-                                        <th>F.UC </th>
-                                        <th onClick={handleClickCA}>Le.CA <FaSort size={15} /></th>
-                                        <th onClick={handleClickAn}>Anorm. <FaSort size={15} /></th>
-                                        <th onClick={handleClickDl}>Días Lact. <FaSort size={15} /></th>
-                                        <th onClick={handleClickER}>Est. Rep. <FaSort size={15} /></th>
-                                        <th onClick={handleClickDP}>Días Preñ. <FaSort size={15} /></th>
-                                        <th onClick={handleClickRac}>Ración  <FaSort size={15} /></th>
-                                        <th>F.Racion </th>
-                                        <th>
-                                            <div className="control-tooltip">
-                                                <Button
-                                                    className="control-btn"
-                                                    style={{ backgroundColor: "#4cb04f" }}
-                                                    onClick={() => setShowConfirmModal(true)}
-                                                >
-                                                    <RiSendPlaneLine />
-                                                </Button>
-                                                <span className="control-tooltip-text">Asignar la ración sugerida a todos.</span>
-                                            </div>
-                                        </th>
+                {/* Modal de notificaciones */}
+                <Modal show={showModal} onHide={() => setShowModal(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Notificaciones</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <ul>
+                            {modalMessages.map((message, index) => (
+                                <li key={index}>{message}</li>
+                            ))}
+                        </ul>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setShowModal(false)}>
+                            Cerrar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
-                                        <th>Racion Sugerida</th>
+                {/* Modal de confirmación */}
+                <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Confirmar Aplicación</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        ¿Estás seguro de que deseas aplicar la ración sugerida a todos los animales?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={() => setShowConfirmModal(false)}>
+                            Cancelar
+                        </Button>
+                        <Button variant="primary" onClick={handleConfirmApply}>
+                            Confirmar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
 
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {animales.map(a => (
-                                        <DetalleControl
-                                            key={a.id}
-                                            animal={a}
-                                            animales={animales}
-                                            guardarAnimales={guardarAnimales}
-                                            racionModificada={a.racionModificada}
-                                            aplicarRacionSugerida={aplicarRacionSugerida}
-                                        />
-                                    ))}
-                                </tbody>
-                            </Table>
-                        </StickyTable>
-                    </Contenedor>
-                :
-                <SelectTambo />
-
-            }
-
-            {/* Modal for notifications */}
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Notificaciones</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <ul>
-                        {modalMessages.map((message, index) => (
-                            <li key={index}>{message}</li> // Renderiza cada mensaje en la lista
-                        ))}
-                    </ul>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowModal(false)}>
-                        Cerrar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-            <Modal show={showConfirmModal} onHide={() => setShowConfirmModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Confirmar Aplicación</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    ¿Estás seguro de que deseas aplicar la ración sugerida a todos los animales?
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={() => setShowConfirmModal(false)}>
-                        Cancelar
-                    </Button>
-                    <Button variant="primary" onClick={handleConfirmApply}>
-                        Confirmar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-            <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Cambio de Ración Sugerido</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    Cambio de ración sugerida exitosa.
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="primary" onClick={() => setShowSuccessModal(false)}>
-                        Cerrar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-          </>
+                {/* Modal de éxito */}
+                <Modal show={showSuccessModal} onHide={() => setShowSuccessModal(false)}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Cambio de Ración Sugerido</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        Cambio de ración sugerida exitosa.
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={() => setShowSuccessModal(false)}>
+                            Cerrar
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </>
         </Layout>
-    )
+    );
+
 }
 
 export default Control

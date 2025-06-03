@@ -1,9 +1,12 @@
 import React from 'react';
+import styles from '../../styles/CargarControlFarmer.module.scss';
+
 const Detalle = ({ info }) => {
-  
-   return (
-         <p style={{textAlign:"center",fontSize:"14px"}}>{info}</p>
-   );
-}
+  return (
+    <div className={styles.alertaItem}>
+      {info}
+    </div>
+  );
+};
 
 export default Detalle;
